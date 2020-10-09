@@ -9,17 +9,17 @@ Criteria acquired here:
 
 */
 
-template<typename T>
 class Matrix
 {
 	// Sizes of the matrix
-	int x; 
-	int y;
+	std::vector<std::vector<float>> data_of_matrix;
+	std::vector<float> row_of_matrix;
 
 public:
 	// Constructors
+	Matrix();
 	Matrix(int x_in, int y_in); // Takes x and y value as dimentions and creates vector with those parameters
-	Matrix(std::vector<T> v);
-
+	// Methods
+	void Fill(std::vector<std::vector<float>> data_in);
+	void Fill(float first_variable, ...);
 };
-

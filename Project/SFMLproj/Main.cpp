@@ -1,25 +1,14 @@
 #include "Main.h"
-#include <SFML/Window.hpp>
-#include <SFML/Graphics.hpp>
-
-using namespace sf;
 
 Main::Main()
 {
-	RenderWindow window{ VideoMode{800, 600}, "Hello World" };
-	window.setFramerateLimit(60);
-
-	while (true)
-	{
-		window.clear(Color::Black);
-		window.display();
-	}
-
+	window = new Window;
+	window->Loop();
 };
 
 int main()
 {
-
+	Main* run = new Main;
 }
 /*
 Simulation of possible behavior of some animals.

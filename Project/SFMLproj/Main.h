@@ -1,13 +1,11 @@
 #pragma once
 
-#include <SFML/Window.hpp>
-#include <SFML/Graphics.hpp>
-#include "MatrixMath.h"
-
-using namespace sf;
+//#include "MatrixMath.h"
+#include "Window.h"
 
 class Main
 {
+	Window* window;
 public:
 	Main();
 };
