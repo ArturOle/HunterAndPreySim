@@ -1,5 +1,8 @@
 #pragma once
-class Dot
+#include <SFML/Graphics.hpp>
+
+
+class Dot : private sf::Drawable
 {
 };
 
