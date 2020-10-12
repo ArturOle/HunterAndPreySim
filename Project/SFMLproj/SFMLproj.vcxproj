@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Board.h" />
+    <ClInclude Include="Bot.h" />
     <ClInclude Include="Carnivore.h" />
     <ClInclude Include="Dot.h" />
     <ClInclude Include="Food.h" />
@@ -30,6 +31,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
+    <ClCompile Include="Bot.cpp" />
     <ClCompile Include="Carnivore.cpp" />
     <ClCompile Include="Dot.cpp" />
     <ClCompile Include="Food.cpp" />
