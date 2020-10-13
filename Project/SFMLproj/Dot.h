@@ -2,16 +2,21 @@
 #include <SFML/Graphics.hpp>
 
 
-class Dot : private sf::Drawable
+class Dot : public sf::Drawable
 {
+private:
+	sf::CircleShape dot;
+	float radius = 10;
+
 public:
 	Dot(float x_in, float y_in);
 	Dot() = delete;
+	
+
+	void draw(sf::RenderTarget& target, sf::RenderStates state) const override;
+
 	~Dot() = default;
 
-private:
-	friend class Window;
-	sf::CircleShape dot;
-	float radius = 10;
+
 };
 

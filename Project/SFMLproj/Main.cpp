@@ -11,7 +11,7 @@ Main::Main()
 Main::~Main()
 {
 	delete(window);
-};
+}
 
 
 int main()

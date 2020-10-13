@@ -3,7 +3,7 @@
 #include "Window.h"
 
 
-class Food : private Dot
+class Food : public Dot
 {
 };
 
