@@ -1,5 +1,8 @@
 #pragma once
-class Herbivore
+#include "Bot.h"
+
+
+class Herbivore : private Bot
 {
 };
 

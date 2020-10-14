@@ -1,5 +1,9 @@
 #pragma once
-class Food
+#include "Dot.h"
+#include "Window.h"
+
+
+class Food : public Dot
 {
 };
 
