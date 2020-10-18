@@ -25,7 +25,12 @@ Requirments achived here:
 class Window
 {
 	sf::RenderWindow window{ sf::VideoMode{800, 600}, "Hunt it my son", sf::Style::Close | sf::Style::Titlebar };  // SFML object creating a window 
+
 	std::vector<Dot*> dots;  // Vector responsible for menaging and storing created dots
+	std::vector<Bot*> bots;
+
+	//std::vector<Herbivore*> herbi;
+	//std::vector<Carnivore*> carni;
 	
 public:
 
@@ -37,8 +42,34 @@ public:
 	void AddBot();
 	void DrawAll();  // Iterates through dots vector and draws every drawable object from it to the window
 	void ShowMeDots();  // Raports names and positions of the Dots in dots vector to the console
+	void GenerateDots(int f=2, int b=3, int h=4, int c=5);
+
+	template<typename T>
+	void ClearVector(std::vector<T> v_name);
+	template<typename T>
+	void DrawVector(std::vector<T> v_name);
+
 	int randint(int from, int to);  // Peudo-random number generator using mt19937 from <random> library
 
 	~Window();  // Destroys all dots inside of the dots vector and cleans the vector
 };
 
+template<typename T>
+inline void Window::ClearVector(std::vector<T> v_name)
+{
+	for (auto x : v_name) 
+	{
+		delete x;
+	}
+	v_name.clear();
+
+}
+
+template<typename T>
+inline void Window::DrawVector(std::vector<T> v_name)
+{
+	for (auto x: v_name)
+	{
+		window.draw(*x);
+	}
+}
