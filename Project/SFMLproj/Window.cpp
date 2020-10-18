@@ -9,14 +9,10 @@ Window::Window()
 
 void Window::Loop()
 {
+	GenerateDots();
 	while (window.isOpen())
 	{
 		window.clear(sf::Color::Black);
-
-		if (dots.size() < 3) 
-		{
-			AddBot();
-		}
 
 		DrawAll();
 		window.display();
@@ -51,17 +47,15 @@ void Window::AddDot()
 
 void Window::AddBot()
 {
-	dots.push_back(new Bot(randint(0, 800), randint(0, 600)));
-	dots.shrink_to_fit();
+	bots.push_back(new Bot(randint(0, 800), randint(0, 600)));
+	bots.shrink_to_fit();
 }
 
 
 void Window::DrawAll()
 {
-	for (auto x : dots) 
-	{
-		window.draw(*x);
-	}
+	DrawVector(dots);
+	DrawVector(bots);
 }
 
 
@@ -71,6 +65,18 @@ void Window::ShowMeDots()
 	for (auto x : dots)
 	{
 		std::cout << x << " at x: " << x->x_position <<" y: "<< x->y_position<< std::endl;
+	}
+}
+
+void Window::GenerateDots(int f, int b, int h, int c)
+{
+	for (int i = 0; i < b; i++)
+	{
+		AddDot();
+	}
+	for (int i = 0; i < b; i++)
+	{
+		AddBot();
 	}
 }
 
@@ -87,8 +93,8 @@ int Window::randint(int from, int to)
 
 Window::~Window()
 {
-	for (auto x : dots) {
-		delete x;
-	}
-	dots.clear();
+	ClearVector(dots);
+	ClearVector(bots);
+	//ClearVector(herbi);
+	//ClearVector(carni);
 }
