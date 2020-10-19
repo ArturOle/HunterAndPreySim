@@ -13,7 +13,7 @@ void Window::Loop()
 	while (window.isOpen())
 	{
 		window.clear(sf::Color::Black);
-
+		Test();
 		DrawAll();
 		window.display();
 		EventHandler();
@@ -45,17 +45,39 @@ void Window::AddDot()
 	dots.shrink_to_fit();
 }
 
+
 void Window::AddBot()
 {
-	bots.push_back(new Bot(randint(0, 800), randint(0, 600)));
-	bots.shrink_to_fit();
+	dots.push_back(new Bot(randint(0, 800), randint(0, 600)));
+	dots.shrink_to_fit();
+}
+
+
+void Window::AddHerbi()
+{
+	dots.push_back(new Herbivore(randint(0, 800), randint(0, 600)));
+	dots.shrink_to_fit();
+}
+
+
+void Window::AddCarni()
+{
+	dots.push_back(new Carnivore(randint(0, 800), randint(0, 600)));
+	dots.shrink_to_fit();
+}
+
+
+void Window::AddFood()
+{
+	dots.push_back(new Food(randint(0, 800), randint(0, 600)));
+	dots.shrink_to_fit();
 }
 
 
 void Window::DrawAll()
 {
 	DrawVector(dots);
-	DrawVector(bots);
+	//DrawVector(bots);
 }
 
 
@@ -68,16 +90,38 @@ void Window::ShowMeDots()
 	}
 }
 
+
 void Window::GenerateDots(int f, int b, int h, int c)
 {
-	for (int i = 0; i < b; i++)
+	for (int i = 0; i < f; i++)
 	{
-		AddDot();
+		AddFood();
 	}
 	for (int i = 0; i < b; i++)
 	{
 		AddBot();
 	}
+	for (int i = 0; i < h; i++)
+	{
+		AddHerbi();
+	}
+	for (int i = 0; i < c; i++)
+	{
+		AddCarni();
+	}
+}
+
+void Window::Test()
+{
+	for(Dot* x : dots)
+	{
+		Bot* bot = dynamic_cast<Bot*>(x);
+		if(bot != NULL)
+		{
+			bot->GoDown();
+		}
+	}
+
 }
 
 
@@ -94,7 +138,4 @@ int Window::randint(int from, int to)
 Window::~Window()
 {
 	ClearVector(dots);
-	ClearVector(bots);
-	//ClearVector(herbi);
-	//ClearVector(carni);
 }

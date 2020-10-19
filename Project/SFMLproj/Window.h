@@ -27,7 +27,7 @@ class Window
 	sf::RenderWindow window{ sf::VideoMode{800, 600}, "Hunt it my son", sf::Style::Close | sf::Style::Titlebar };  // SFML object creating a window 
 
 	std::vector<Dot*> dots;  // Vector responsible for menaging and storing created dots
-	std::vector<Bot*> bots;
+	//std::vector<Bot*> bots;
 
 	//std::vector<Herbivore*> herbi;
 	//std::vector<Carnivore*> carni;
@@ -38,11 +38,17 @@ public:
 
 	void Loop();  // Main loop of the game, in this place window is beeing drawn on, cleared
 	void EventHandler();  // Takes care of all window events like resizing or closing the window
-	void AddDot();  // Adds Dot object to the dots vector
+
+	void AddDot();  // Adding objects to the dots vector
 	void AddBot();
+	void AddHerbi();
+	void AddCarni();
+	void AddFood();
+
 	void DrawAll();  // Iterates through dots vector and draws every drawable object from it to the window
 	void ShowMeDots();  // Raports names and positions of the Dots in dots vector to the console
 	void GenerateDots(int f=2, int b=3, int h=4, int c=5);
+	void Test();
 
 	template<typename T>
 	void ClearVector(std::vector<T> v_name);

@@ -14,11 +14,12 @@ public:
 		std::cout << "Bot " << this << " is born!" << std::endl;
 		dot.setFillColor(sf::Color::Blue);
 	}
-
+	
 	void GoUp();
 	void GoDown();
 	void GoLeft();
 	void GoRight();
+	void Update(); //To Do!
 	bool isAlive();
 };
 

@@ -5,13 +5,14 @@
 
 class Dot : public sf::Drawable
 {
+protected:
 	sf::CircleShape dot;
 	float radius = 10;
 	float x_position;
 	float y_position;
 
 	friend class Window;
-	friend class Bot;
+	//friend class Bot;
 
 public:
 
