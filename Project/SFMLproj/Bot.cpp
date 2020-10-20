@@ -28,6 +28,8 @@ float Bot::GoRight()
 void Bot::Update()
 {
 	dot.move(this->velocity);
+	x_position = dot.getPosition().x;
+	y_position = dot.getPosition().y;
 
 	if (this->GoDown() < 0) 
 	{
