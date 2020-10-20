@@ -1,7 +1,7 @@
 #include "Window.h"
 
 
-Window::Window() 
+Window::Window()
 {
 	window.setFramerateLimit(60);
 }
@@ -14,6 +14,7 @@ void Window::Loop()
 	{
 		window.clear(sf::Color::Black);
 		Test();
+		Update();
 		DrawAll();
 		window.display();
 		EventHandler();
@@ -111,17 +112,31 @@ void Window::GenerateDots(int f, int b, int h, int c)
 	}
 }
 
+
+void Window::Update()
+{
+	for (Dot* x : dots)
+	{
+		Bot* bot = dynamic_cast<Bot*>(x);
+		if (bot != NULL)
+		{
+			bot->Update();
+		}
+	}
+}
+
+
 void Window::Test()
 {
-	for(Dot* x : dots)
+	for(Dot* &x : dots)
 	{
 		Bot* bot = dynamic_cast<Bot*>(x);
 		if(bot != NULL)
 		{
 			bot->GoDown();
+			bot->Update();
 		}
 	}
-
 }
 
 

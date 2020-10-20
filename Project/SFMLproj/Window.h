@@ -22,10 +22,12 @@ Requirments achived here:
 	- exceptions ( where are streams there are exceptions )
 */
 
+#define width 800
+#define height 600
+
 class Window
 {
-	sf::RenderWindow window{ sf::VideoMode{800, 600}, "Hunt it my son", sf::Style::Close | sf::Style::Titlebar };  // SFML object creating a window 
-
+	sf::RenderWindow window{ sf::VideoMode{width, height}, "Hunt it my son", sf::Style::Close | sf::Style::Titlebar };  // SFML object creating a window 
 	std::vector<Dot*> dots;  // Vector responsible for menaging and storing created dots
 	//std::vector<Bot*> bots;
 
@@ -48,6 +50,7 @@ public:
 	void DrawAll();  // Iterates through dots vector and draws every drawable object from it to the window
 	void ShowMeDots();  // Raports names and positions of the Dots in dots vector to the console
 	void GenerateDots(int f=2, int b=3, int h=4, int c=5);
+	void Update();
 	void Test();
 
 	template<typename T>

@@ -1,10 +1,14 @@
 #pragma once
 #include "Dot.h"
 
+#define height 600
+#define width 800
 
 class Bot : public Dot
 {
 	bool alive;
+	float dot_velocity = 3.0f;
+	sf::Vector2f velocity{ dot_velocity, dot_velocity };
 
 public:
 	
@@ -15,11 +19,11 @@ public:
 		dot.setFillColor(sf::Color::Blue);
 	}
 	
-	void GoUp();
-	void GoDown();
-	void GoLeft();
-	void GoRight();
-	void Update(); //To Do!
+	float GoUp();
+	float GoDown();
+	float GoLeft();
+	float GoRight();
+	void Update();
 	bool isAlive();
 };
 

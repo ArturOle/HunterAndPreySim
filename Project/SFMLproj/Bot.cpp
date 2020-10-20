@@ -1,24 +1,53 @@
 #include "Bot.h"
 
-void Bot::GoUp()
+
+float Bot::GoUp()
 {
-	y_position += 1;
+	return this->dot.getPosition().y + dot.getRadius();
 }
 
-void Bot::GoDown()
+
+float Bot::GoDown()
 {
-	y_position -= 1;
+	return this->dot.getPosition().y - dot.getRadius();
 }
 
-void Bot::GoLeft()
+
+float Bot::GoLeft()
 {
-	x_position -= 1;
+	return this->dot.getPosition().x - dot.getRadius();
 }
 
-void Bot::GoRight()
+
+float Bot::GoRight()
 {
-	x_position += 1;
+	return this->dot.getPosition().x + dot.getRadius();
 }
+
+
+void Bot::Update()
+{
+	dot.move(this->velocity);
+
+	if (this->GoDown() < 0) 
+	{
+		velocity.y = dot_velocity;
+	}
+	else if (this->GoUp() > height) 
+	{
+		velocity.y = -dot_velocity;
+	}
+
+	if (this->GoLeft() < 0)
+	{
+		velocity.x = dot_velocity;
+	}
+	else if (this->GoRight() > width)
+	{
+		velocity.x = -dot_velocity;
+	}
+}
+
 
 bool Bot::isAlive()
 {
