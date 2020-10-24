@@ -1,4 +1,4 @@
-/*#include <exception>
+#include <exception>
 #include <iostream>
 #include <string>
 #include <array>
@@ -54,4 +54,4 @@ int main()
 	someclass.SecureFunction2();
 	someclass.SecureFunction3();
 	std::cout << "Congrats, you made it!" << std::endl;
-}*/
+}
