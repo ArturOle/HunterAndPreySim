@@ -1,4 +1,4 @@
-#include <exception>
+/*#include <exception>
 #include <iostream>
 #include <string>
 #include <array>
@@ -34,7 +34,6 @@ public:
 		FILE* fp;
 			fopen_s(&fp, "txt.txt", "r");
 
-
 			char* line = NULL;
 			size_t len = 0;
 			fgets(line, len, fp);
@@ -54,4 +53,4 @@ int main()
 	someclass.SecureFunction2();
 	someclass.SecureFunction3();
 	std::cout << "Congrats, you made it!" << std::endl;
-}
+}*/
