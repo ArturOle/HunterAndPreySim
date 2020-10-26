@@ -1,7 +1,7 @@
 #include "Window.h"
 
 
-Window::Window() 
+Window::Window()
 {
 	window.setFramerateLimit(60);
 }
@@ -13,11 +13,12 @@ void Window::Loop()
 	while (window.isOpen())
 	{
 		window.clear(sf::Color::Black);
-
-		DrawAll();
+		Update();
+		DrawVector(dots);
 		window.display();
 		EventHandler();
-		ShowMeDots();
+		Action();
+		//ShowMeDots();
 	}
 }
 
@@ -45,17 +46,32 @@ void Window::AddDot()
 	dots.shrink_to_fit();
 }
 
+
 void Window::AddBot()
 {
-	bots.push_back(new Bot(randint(0, 800), randint(0, 600)));
-	bots.shrink_to_fit();
+	dots.push_back(new Bot(randint(0, 800), randint(0, 600)));
+	dots.shrink_to_fit();
 }
 
 
-void Window::DrawAll()
+void Window::AddHerbi()
 {
-	DrawVector(dots);
-	DrawVector(bots);
+	dots.push_back(new Herbivore(randint(0, 800), randint(0, 600)));
+	dots.shrink_to_fit();
+}
+
+
+void Window::AddCarni()
+{
+	dots.push_back(new Carnivore(randint(0, 800), randint(0, 600)));
+	dots.shrink_to_fit();
+}
+
+
+void Window::AddFood()
+{
+	dots.push_back(new Food(randint(0, 800), randint(0, 600)));
+	dots.shrink_to_fit();
 }
 
 
@@ -68,15 +84,92 @@ void Window::ShowMeDots()
 	}
 }
 
+
 void Window::GenerateDots(int f, int b, int h, int c)
 {
-	for (int i = 0; i < b; i++)
+	for (int i = 0; i < f; i++)
 	{
-		AddDot();
+		AddFood();
 	}
 	for (int i = 0; i < b; i++)
 	{
 		AddBot();
+	}
+	for (int i = 0; i < h; i++)
+	{
+		AddHerbi();
+	}
+	for (int i = 0; i < c; i++)
+	{
+		AddCarni();
+	}
+}
+
+
+void Window::Action()
+{
+	int x, y;
+	for (int i = 0; i < dots.size()-1; i++)
+	{
+		for (int j = i + 1; j < dots.size()-1; j++) 
+		{
+			if (IsIntersecting(dots[i], dots[j]))
+			{
+				Herbivore* type1 = dynamic_cast<Herbivore*>(dots[i]);
+				Carnivore* type2 = dynamic_cast<Carnivore*>(dots[j]);
+				
+				if (type1 != nullptr && type2 != nullptr)
+				{
+					std::cout << "interception of " << dots[i] << " " << dots[j] << std::endl;
+					x = dots[i]->dot.getPosition().x;
+					y = dots[i]->dot.getPosition().y;
+					delete dots[i];
+					dots[i] = new Carnivore(x, y);
+				}
+				else
+				{
+					Food*	   type1 = dynamic_cast<Food*     >(dots[i]);
+					Herbivore* type2 = dynamic_cast<Herbivore*>(dots[j]);
+
+					if (type1 != nullptr && type2 != nullptr)
+					{
+						std::cout << "interception of " << dots[i] << " " << dots[j] << std::endl;
+						x = dots[i]->dot.getPosition().x;
+						y = dots[i]->dot.getPosition().y;
+						delete dots[i];
+						dots[i] = new Herbivore(x, y);
+						AddFood();
+					}
+				}
+			}
+		}
+	}
+}
+
+
+void Window::Update()
+{
+	for (Dot* x : dots)
+	{
+		Bot* bot = dynamic_cast<Bot*>(x);
+		if (bot != NULL)
+		{
+			bot->Update();
+		}
+	}
+}
+
+
+void Window::Test()
+{
+	for(Dot* &x : dots)
+	{
+		Bot* bot = dynamic_cast<Bot*>(x);
+		if(bot != NULL)
+		{
+			bot->GoDown();
+			bot->Update();
+		}
 	}
 }
 
@@ -94,7 +187,4 @@ int Window::randint(int from, int to)
 Window::~Window()
 {
 	ClearVector(dots);
-	ClearVector(bots);
-	//ClearVector(herbi);
-	//ClearVector(carni);
 }
