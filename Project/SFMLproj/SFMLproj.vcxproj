@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Board.h" />
     <ClInclude Include="Bot.h" />
     <ClInclude Include="Carnivore.h" />
     <ClInclude Include="Dot.h" />
@@ -30,7 +29,6 @@
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Board.cpp" />
     <ClCompile Include="Bot.cpp" />
     <ClCompile Include="Carnivore.cpp" />
     <ClCompile Include="Dot.cpp" />

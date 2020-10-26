@@ -13,12 +13,12 @@ void Window::Loop()
 	while (window.isOpen())
 	{
 		window.clear(sf::Color::Black);
-		Test();
 		Update();
-		DrawAll();
+		DrawVector(dots);
 		window.display();
 		EventHandler();
-		ShowMeDots();
+		Action();
+		//ShowMeDots();
 	}
 }
 
@@ -75,13 +75,6 @@ void Window::AddFood()
 }
 
 
-void Window::DrawAll()
-{
-	DrawVector(dots);
-	//DrawVector(bots);
-}
-
-
 void Window::ShowMeDots()
 {
 	std::cout << "Dots in the vector: " << std::endl;
@@ -109,6 +102,47 @@ void Window::GenerateDots(int f, int b, int h, int c)
 	for (int i = 0; i < c; i++)
 	{
 		AddCarni();
+	}
+}
+
+
+void Window::Action()
+{
+	int x, y;
+	for (int i = 0; i < dots.size()-1; i++)
+	{
+		for (int j = i + 1; j < dots.size()-1; j++) 
+		{
+			if (IsIntersecting(dots[i], dots[j]))
+			{
+				Herbivore* type1 = dynamic_cast<Herbivore*>(dots[i]);
+				Carnivore* type2 = dynamic_cast<Carnivore*>(dots[j]);
+				
+				if (type1 != nullptr && type2 != nullptr)
+				{
+					std::cout << "interception of " << dots[i] << " " << dots[j] << std::endl;
+					x = dots[i]->dot.getPosition().x;
+					y = dots[i]->dot.getPosition().y;
+					delete dots[i];
+					dots[i] = new Carnivore(x, y);
+				}
+				else
+				{
+					Food*	   type1 = dynamic_cast<Food*     >(dots[i]);
+					Herbivore* type2 = dynamic_cast<Herbivore*>(dots[j]);
+
+					if (type1 != nullptr && type2 != nullptr)
+					{
+						std::cout << "interception of " << dots[i] << " " << dots[j] << std::endl;
+						x = dots[i]->dot.getPosition().x;
+						y = dots[i]->dot.getPosition().y;
+						delete dots[i];
+						dots[i] = new Herbivore(x, y);
+						AddFood();
+					}
+				}
+			}
+		}
 	}
 }
 

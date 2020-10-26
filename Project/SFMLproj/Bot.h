@@ -6,8 +6,11 @@
 
 class Bot : public Dot
 {
+protected:
 	bool alive;
 	float dot_velocity = 3.0f;
+
+private:
 	sf::Vector2f velocity{ dot_velocity, dot_velocity };
 
 public:
@@ -24,6 +27,6 @@ public:
 	float GoLeft();
 	float GoRight();
 	void Update();
-	bool isAlive();
+	void Death();
 };
 

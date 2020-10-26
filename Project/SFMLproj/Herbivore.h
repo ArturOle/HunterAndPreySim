@@ -10,6 +10,8 @@ public:
 		dot.setFillColor(sf::Color::Green);
 	}
 
-	void Atack();
+	void Flee();
+	void SeakFood();
+
 };
 

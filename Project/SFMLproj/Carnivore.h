@@ -8,9 +8,9 @@ public:
 	Carnivore(int x_in, int y_in) : Bot(x_in, y_in)
 	{
 		dot.setFillColor(sf::Color::Red);
+		dot_velocity = 4.0f;
 	}
 
-	void Flee();
-	void SeakFood();
+	void Atack();
 };
 

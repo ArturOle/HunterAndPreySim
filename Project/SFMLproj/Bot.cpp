@@ -49,9 +49,3 @@ void Bot::Update()
 		velocity.x = -dot_velocity;
 	}
 }
-
-
-bool Bot::isAlive()
-{
-	return alive;
-}
