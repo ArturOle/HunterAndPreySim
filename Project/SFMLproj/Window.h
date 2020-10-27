@@ -37,10 +37,11 @@ public:
 	void EventHandler();  // Takes care of all window events like resizing or closing the window
   
 	void ShowMeDots();  // Raports names and positions of the Dots in dots vector to the console
-	void GenerateDots(int f=10, int b=3, int h=4, int c=2);
+	void GenerateDots(int f=10, int b=0, int h=1, int c=1);
 	void Action();
 	void Update();
 	void Test();
+	void Starve();
 
 	template<typename T>
 	int AddEntity(std::vector<Dot*> &vec);   // Adding objects to the dots vector

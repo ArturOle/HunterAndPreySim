@@ -1,5 +1,6 @@
 #pragma once
 #include "Dot.h"
+#include "Behavior.h"
 
 #define height 600
 #define width 800

@@ -17,6 +17,7 @@ void Window::Loop()
 		DrawVector(dots);
 		window.display();
 		EventHandler();
+		Starve();
 		Action();
 		//ShowMeDots();
 	}
@@ -85,11 +86,13 @@ void Window::Action()
 				
 				if (type1 != nullptr && type2 != nullptr)
 				{
+					type2->CheckTime();
 					std::cout << "interception of " << dots[i] << " " << dots[j] << std::endl;
 					x = dots[i]->dot.getPosition().x;
 					y = dots[i]->dot.getPosition().y;
 					delete dots[i];
 					dots[i] = new Carnivore(x, y);
+					type2->AddTime();
 				}
 				else
 				{
@@ -134,6 +137,22 @@ void Window::Test()
 		{
 			bot->GoDown();
 			bot->Update();
+		}
+	}
+}
+
+void Window::Starve()
+{
+	int x;
+	for ( x = 0; x < dots.size()-1; x++) {
+		Carnivore* carni = dynamic_cast<Carnivore*>(dots[x]);
+		if (carni != nullptr)
+		{
+			if (carni->CheckTime() >= 0) 
+			{
+				delete dots[x];
+				dots.erase(dots.begin()+x);
+			}
 		}
 	}
 }
