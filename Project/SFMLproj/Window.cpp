@@ -40,41 +40,6 @@ void Window::EventHandler()
 }
 
 
-void Window::AddDot()
-{
-	dots.push_back(new Dot(randint(0, 800), randint(0, 600)));
-	dots.shrink_to_fit();
-}
-
-
-void Window::AddBot()
-{
-	dots.push_back(new Bot(randint(0, 800), randint(0, 600)));
-	dots.shrink_to_fit();
-}
-
-
-void Window::AddHerbi()
-{
-	dots.push_back(new Herbivore(randint(0, 800), randint(0, 600)));
-	dots.shrink_to_fit();
-}
-
-
-void Window::AddCarni()
-{
-	dots.push_back(new Carnivore(randint(0, 800), randint(0, 600)));
-	dots.shrink_to_fit();
-}
-
-
-void Window::AddFood()
-{
-	dots.push_back(new Food(randint(0, 800), randint(0, 600)));
-	dots.shrink_to_fit();
-}
-
-
 void Window::ShowMeDots()
 {
 	std::cout << "Dots in the vector: " << std::endl;
@@ -89,19 +54,19 @@ void Window::GenerateDots(int f, int b, int h, int c)
 {
 	for (int i = 0; i < f; i++)
 	{
-		AddFood();
+		AddEntity<Food>(dots);
 	}
 	for (int i = 0; i < b; i++)
 	{
-		AddBot();
+		AddEntity<Bot>(dots);
 	}
 	for (int i = 0; i < h; i++)
 	{
-		AddHerbi();
+		AddEntity<Herbivore>(dots);
 	}
 	for (int i = 0; i < c; i++)
 	{
-		AddCarni();
+		AddEntity<Carnivore>(dots);
 	}
 }
 
@@ -138,7 +103,7 @@ void Window::Action()
 						y = dots[i]->dot.getPosition().y;
 						delete dots[i];
 						dots[i] = new Herbivore(x, y);
-						AddFood();
+						AddEntity<Food>(dots);
 					}
 				}
 			}

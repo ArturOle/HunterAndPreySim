@@ -35,12 +35,6 @@ public:
 
 	void Loop();  // Main loop of the game, in this place window is beeing drawn on, cleared
 	void EventHandler();  // Takes care of all window events like resizing or closing the window
-
-	void AddDot();  // Adding objects to the dots vector
-	void AddBot();
-	void AddHerbi();
-	void AddCarni();
-	void AddFood();
   
 	void ShowMeDots();  // Raports names and positions of the Dots in dots vector to the console
 	void GenerateDots(int f=10, int b=3, int h=4, int c=2);
@@ -48,6 +42,8 @@ public:
 	void Update();
 	void Test();
 
+	template<typename T>
+	int AddEntity(std::vector<Dot*> &vec);   // Adding objects to the dots vector
 	template<typename T1, typename T2>
 	bool IsIntersecting(T1 obj_1, T2 obj_2);
 	template<typename T>
@@ -59,6 +55,15 @@ public:
 
 	~Window();  // Destroys all dots inside of the dots vector and cleans the vector
 };
+
+
+template<typename T>
+inline int Window::AddEntity(std::vector<Dot*> &vec)
+{
+	vec.push_back(new T(randint(0, 800), randint(0, 600)));
+	vec.shrink_to_fit();
+	return 0;
+}
 
 
 template<typename T1, typename T2>
