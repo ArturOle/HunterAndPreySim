@@ -1,7 +1,4 @@
 #pragma once
-
-#include <string>
-#include <vector>
 #include <sstream>
 #include <exception>
 
@@ -20,18 +17,20 @@ public:
 
 	int num_of_lines();
 
-	template<typename R, typename I>
-	CompNumb<R, I> read_cnumber(int choosen_line);
+	template<typename T1>
+	std::vector<T1> read_cnumber(int choosen_line);
 };
 
 
-template<typename R, typename I>
-inline CompNumb<R, I> Reader::read_cnumber(int choosen_line)
+template<typename T1>
+inline std::vector<T1> Reader::read_cnumber(int choosen_line)
 {
-	CompNumb<int, int>* complex_num;
-	std::string number;
 	int i = 0;
+	std::vector<T1> pair;
+	pair.reserve(2);
+	std::string number;
 	std::ifstream inFile(filename);
+
 	if (inFile.is_open())
 	{
 		if(this->quantity_lines >= choosen_line && choosen_line > 0 )
@@ -45,10 +44,12 @@ inline CompNumb<R, I> Reader::read_cnumber(int choosen_line)
 					std::string imaginary_string;
 					std::getline(ss, real_string, '#');
 					std::getline(ss, imaginary_string, '#');
-					complex_num = new CompNumb<int, int>(std::stoi(real_string), std::stoi(imaginary_string));
-					return *complex_num;
+					pair.push_back(std::stoi(real_string));
+					pair.push_back(std::stoi(imaginary_string));
+					return pair;
+					pair.clear();
 					break;
-					delete complex_num;
+					
 				}
 				i += 1;
 			}
@@ -63,4 +64,3 @@ inline CompNumb<R, I> Reader::read_cnumber(int choosen_line)
 		throw std::exception("No such file");
 	}
 }
-

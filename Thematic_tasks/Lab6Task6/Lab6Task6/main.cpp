@@ -1,6 +1,9 @@
 #include <iostream>
+#include <crtdbg.h>
 
 #include "Reader.h"
+
+#define _CRTDBG_MAP_ALLOC
 
 
 int main()
@@ -10,14 +13,14 @@ int main()
 
 	try
 	{
-		CompNumb<int, int> cnum = read.read_cnumber<int, int>(6);
-		cnum << std::cout;
+		CompNumb<int> cnum1(read.read_cnumber<int>(6));
+		cnum1 << std::cout;
 
-		cnum = read.read_cnumber<int, int>(3);
-		cnum << std::cout;
-
-		cnum = read.read_cnumber<int, int>(0);
-		cnum << std::cout;
+		CompNumb<int> cnum2(read.read_cnumber<int>(3));
+		cnum2 << std::cout;
+		
+		CompNumb<int> cnum3(read.read_cnumber<int>(0));
+		cnum3 << std::cout;
 	}
 	catch (std::out_of_range& e) 
 	{
@@ -27,4 +30,5 @@ int main()
 	{
 		std::cerr << e.what();
 	}
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 }
