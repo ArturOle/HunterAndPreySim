@@ -72,4 +72,7 @@
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="dotdata.txt" />
+  </ItemGroup>
 </Project>
