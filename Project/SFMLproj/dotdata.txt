@@ -1,0 +1,4 @@
+food=10
+carni=3
+herbi=3
+bot=0

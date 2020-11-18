@@ -3,13 +3,59 @@
 
 Window::Window()
 {
+	ReadOnInit("dotdata.txt");
+	current_population = { f, h, c };
+	for (int i = 0; i < 3; i++)
+	{
+		std::cout << current_population[i] << std::endl;
+	}
 	window.setFramerateLimit(60);
+}
+
+
+int Window::ReadOnInit(std::string file_name)
+{
+	std::string line;
+	std::ifstream inFile(file_name);
+
+	if (!inFile.is_open()) return 0;
+
+	while (std::getline(inFile, line))
+	{
+		char obj = line[0];
+		std::string data = "";
+		for (int i = 0; i < line.size(); i++)
+		{
+			if (isdigit(line[i]))
+			{
+				data = data + line[i];
+			}
+		}
+		std::cout << line << std::endl;
+		std::cout << obj << std::endl;
+		std::cout << data << std::endl;
+		switch (obj) 
+		{
+
+		case 'f':
+			this->f = stoi(data);
+
+		case 'h':
+			this->h = stoi(data);
+
+		case 'c':
+			this->c = stoi(data);
+
+		case 'b':
+			this->b = stoi(data);
+		}
+	}
 }
 
 
 void Window::Loop()
 {
-	GenerateDots();
+	GenerateDots(f,b,h,c);
 	while (window.isOpen())
 	{
 		window.clear(sf::Color::Black);
@@ -17,9 +63,32 @@ void Window::Loop()
 		DrawVector(dots);
 		window.display();
 		EventHandler();
+		Starve();
 		Action();
+		StopCondition();
 		//ShowMeDots();
 	}
+}
+
+
+void Window::StopCondition()
+{
+	if (h > 10 * c) 
+		{
+		std::cout << "Herbivore won" << std::endl;
+		EndSession();
+	}
+	if (h == 0)
+	{
+		std::cout << "Carnivore won" << std::endl;
+		EndSession();
+	}	
+}
+
+
+void Window::EndSession()
+{
+	window.close();
 }
 
 
@@ -52,6 +121,7 @@ void Window::ShowMeDots()
 
 void Window::GenerateDots(int f, int b, int h, int c)
 {
+	dots.reserve(f + b + h + c);
 	for (int i = 0; i < f; i++)
 	{
 		AddEntity<Food>(dots);
@@ -73,39 +143,15 @@ void Window::GenerateDots(int f, int b, int h, int c)
 
 void Window::Action()
 {
-	int x, y;
-	for (int i = 0; i < dots.size()-1; i++)
+	int i, j, max;
+	max = dots.size()-1;
+	for (i = 0; i < max; i++)
 	{
-		for (int j = i + 1; j < dots.size()-1; j++) 
+		for (j = i + 1; j < max; j++) 
 		{
 			if (IsIntersecting(dots[i], dots[j]))
 			{
-				Herbivore* type1 = dynamic_cast<Herbivore*>(dots[i]);
-				Carnivore* type2 = dynamic_cast<Carnivore*>(dots[j]);
-				
-				if (type1 != nullptr && type2 != nullptr)
-				{
-					std::cout << "interception of " << dots[i] << " " << dots[j] << std::endl;
-					x = dots[i]->dot.getPosition().x;
-					y = dots[i]->dot.getPosition().y;
-					delete dots[i];
-					dots[i] = new Carnivore(x, y);
-				}
-				else
-				{
-					Food*	   type1 = dynamic_cast<Food*     >(dots[i]);
-					Herbivore* type2 = dynamic_cast<Herbivore*>(dots[j]);
-
-					if (type1 != nullptr && type2 != nullptr)
-					{
-						std::cout << "interception of " << dots[i] << " " << dots[j] << std::endl;
-						x = dots[i]->dot.getPosition().x;
-						y = dots[i]->dot.getPosition().y;
-						delete dots[i];
-						dots[i] = new Herbivore(x, y);
-						AddEntity<Food>(dots);
-					}
-				}
+				CarniAction(i, j);
 			}
 		}
 	}
@@ -132,8 +178,85 @@ void Window::Test()
 		Bot* bot = dynamic_cast<Bot*>(x);
 		if(bot != NULL)
 		{
-			bot->GoDown();
+			bot->Down();
 			bot->Update();
+		}
+	}
+}
+
+
+void Window::Starve()
+{
+	int x;
+	for ( x = 0; x < dots.size()-1; x++)
+	{
+		Carnivore* carni = dynamic_cast<Carnivore*>(dots[x]);
+		if (carni != nullptr)
+		{
+			if (carni->CheckTime() >= 0) 
+			{
+				delete dots[x];
+				dots.erase(dots.begin()+x);
+				this->c--;
+			}
+		}
+	}
+}
+
+
+void Window::HerbiAction(int i, int j)
+{
+	Food* type1 = dynamic_cast<Food*>(dots[i]);
+	Herbivore* type2 = dynamic_cast<Herbivore*>(dots[j]);
+
+	if (type1 != nullptr && type2 != nullptr)
+	{
+		//std::cout << "interception of " << dots[i] << " " << dots[j] << std::endl;
+		extract<Herbivore>(i);
+		AddEntity<Food>(dots);
+		h++;
+	}
+	else
+	{
+		Food* type1 = dynamic_cast<Food*>(dots[j]);
+		Herbivore* type2 = dynamic_cast<Herbivore*>(dots[i]);
+
+		if (type1 != nullptr && type2 != nullptr)
+		{
+			//std::cout << "interception of " << dots[i] << " " << dots[j] << std::endl;
+			extract<Herbivore>(j);
+			AddEntity<Food>(dots);
+			h++;
+		}
+	}
+}
+
+
+void Window::CarniAction(int i, int j)
+{
+	Herbivore* type1 = dynamic_cast<Herbivore*>(dots[i]);
+	Carnivore* type2 = dynamic_cast<Carnivore*>(dots[j]);
+
+	if (dynamic_cast<Herbivore*>(dots[i]) != nullptr && dynamic_cast<Carnivore*>(dots[j]) != nullptr)
+	{
+		CarniHandler(type2, i, j);
+		h--;
+		c++;
+	}
+	else
+	{
+		Herbivore* type1 = dynamic_cast<Herbivore*>(dots[j]);
+		Carnivore* type2 = dynamic_cast<Carnivore*>(dots[i]);
+
+		if (type1 != nullptr && type2 != nullptr)
+		{
+			CarniHandler(type2, j, i);
+			h--;
+			c++;
+		}
+		else 
+		{
+			HerbiAction(i, j);
 		}
 	}
 }

@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Behavior.h" />
     <ClInclude Include="Bot.h" />
     <ClInclude Include="Carnivore.h" />
     <ClInclude Include="Dot.h" />
@@ -29,6 +30,7 @@
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Behavior.cpp" />
     <ClCompile Include="Bot.cpp" />
     <ClCompile Include="Carnivore.cpp" />
     <ClCompile Include="Dot.cpp" />
@@ -37,6 +39,10 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MatrixMath.cpp" />
     <ClCompile Include="Window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="dotdata.txt" />
+    <Text Include="sessiondata.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

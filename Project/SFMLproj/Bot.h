@@ -1,5 +1,6 @@
 #pragma once
 #include "Dot.h"
+#include "Behavior.h"
 
 #define height 600
 #define width 800
@@ -22,10 +23,10 @@ public:
 		dot.setFillColor(sf::Color::Blue);
 	}
 	
-	float GoUp();
-	float GoDown();
-	float GoLeft();
-	float GoRight();
+	float Up();
+	float Down();
+	float Left();
+	float Right();
 	void Update();
 	void Death();
 };

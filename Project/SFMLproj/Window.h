@@ -6,7 +6,8 @@
 #include <vector>
 #include <random>
 #include <iostream>
-#include <typeinfo>
+#include <fstream>
+#include <sstream>
 
 #include "Food.h"
 #include "Carnivore.h"
@@ -26,6 +27,8 @@ Requirments achived here:
 
 class Window
 {
+	int f, b, h, c;
+	std::vector<int> current_population = {0, 0, 0};
 	sf::RenderWindow window{ sf::VideoMode{width, height}, "Hunt it my son", sf::Style::Close | sf::Style::Titlebar };  // SFML object creating a window 
 	std::vector<Dot*> dots;  // Vector responsible for menaging and storing created dots
 	
@@ -33,14 +36,22 @@ public:
 
 	Window();  // At initialization we're giving the window apropriet values like maximal fps or antyaliasing
 
+	int ReadOnInit(std::string file_name);
+
 	void Loop();  // Main loop of the game, in this place window is beeing drawn on, cleared
+	void StopCondition();
+	void EndSession();
 	void EventHandler();  // Takes care of all window events like resizing or closing the window
   
 	void ShowMeDots();  // Raports names and positions of the Dots in dots vector to the console
-	void GenerateDots(int f=10, int b=3, int h=4, int c=2);
+	void GenerateDots(int f=10, int b=0, int h=1, int c=1);
 	void Action();
 	void Update();
 	void Test();
+	void Starve();
+
+	void HerbiAction(int i, int j);
+	void CarniAction(int i, int j);
 
 	template<typename T>
 	int AddEntity(std::vector<Dot*> &vec);   // Adding objects to the dots vector
@@ -50,9 +61,13 @@ public:
 	void ClearVector(std::vector<T> v_name);
 	template<typename T>
 	void DrawVector(std::vector<T> v_name);  // Iterates through dots vector and draws every drawable object from it to the window
-	
-	int randint(int from, int to);  // Peudo-random number generator using mt19937 from <random> library
+	template<typename T>
+	void extract(int i);
+	template<typename T2>
+	void CarniHandler(T2 type2, int i, int j);
 
+	int randint(int from, int to);  // Peudo-random number generator using mt19937 from <random> library
+	
 	~Window();  // Destroys all dots inside of the dots vector and cleans the vector
 };
 
@@ -91,4 +106,25 @@ inline void Window::DrawVector(std::vector<T> v_name)
 	{
 		window.draw(*x);
 	}
+}
+
+
+template<typename T>
+inline void Window::extract(int i)
+{
+	int x, y;
+	x = dots[i]->dot.getPosition().x;
+	y = dots[i]->dot.getPosition().y;
+	delete dots[i];
+	dots[i] = new T(x, y);
+}
+
+
+template< typename T2>
+inline void Window::CarniHandler(T2 type2, int i, int j)
+{
+	type2->CheckTime();
+	//std::cout << "interception of " << dots[i] << " " << dots[j] << std::endl;
+	extract<Carnivore>(i);
+	type2->AddTime();
 }
