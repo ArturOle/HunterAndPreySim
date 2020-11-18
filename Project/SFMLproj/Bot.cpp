@@ -1,25 +1,25 @@
 #include "Bot.h"
 
 
-float Bot::GoUp()
+float Bot::Up()
 {
 	return this->dot.getPosition().y + dot.getRadius();
 }
 
 
-float Bot::GoDown()
+float Bot::Down()
 {
 	return this->dot.getPosition().y - dot.getRadius();
 }
 
 
-float Bot::GoLeft()
+float Bot::Left()
 {
 	return this->dot.getPosition().x - dot.getRadius();
 }
 
 
-float Bot::GoRight()
+float Bot::Right()
 {
 	return this->dot.getPosition().x + dot.getRadius();
 }
@@ -31,20 +31,20 @@ void Bot::Update()
 	x_position = dot.getPosition().x;
 	y_position = dot.getPosition().y;
 
-	if (this->GoDown() < 0) 
+	if (this->Down() < 0) 
 	{
 		velocity.y = dot_velocity;
 	}
-	else if (this->GoUp() > height) 
+	else if (this->Up() > height) 
 	{
 		velocity.y = -dot_velocity;
 	}
 
-	if (this->GoLeft() < 0)
+	if (this->Left() < 0)
 	{
 		velocity.x = dot_velocity;
 	}
-	else if (this->GoRight() > width)
+	else if (this->Right() > width)
 	{
 		velocity.x = -dot_velocity;
 	}

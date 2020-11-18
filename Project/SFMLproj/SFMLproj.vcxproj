@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="dotdata.txt" />
+    <Text Include="sessiondata.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

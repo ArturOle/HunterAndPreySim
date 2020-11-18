@@ -74,5 +74,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="dotdata.txt" />
+    <Text Include="sessiondata.txt" />
   </ItemGroup>
 </Project>

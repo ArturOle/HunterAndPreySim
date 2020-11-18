@@ -27,6 +27,8 @@ Requirments achived here:
 
 class Window
 {
+	int f, b, h, c;
+	std::vector<int> current_population = {0, 0, 0};
 	sf::RenderWindow window{ sf::VideoMode{width, height}, "Hunt it my son", sf::Style::Close | sf::Style::Titlebar };  // SFML object creating a window 
 	std::vector<Dot*> dots;  // Vector responsible for menaging and storing created dots
 	
@@ -37,8 +39,9 @@ public:
 	int ReadOnInit(std::string file_name);
 
 	void Loop();  // Main loop of the game, in this place window is beeing drawn on, cleared
+	void StopCondition();
+	void EndSession();
 	void EventHandler();  // Takes care of all window events like resizing or closing the window
-	void extract(int i);
   
 	void ShowMeDots();  // Raports names and positions of the Dots in dots vector to the console
 	void GenerateDots(int f=10, int b=0, int h=1, int c=1);
@@ -62,7 +65,6 @@ public:
 	void extract(int i);
 	template<typename T2>
 	void CarniHandler(T2 type2, int i, int j);
-
 
 	int randint(int from, int to);  // Peudo-random number generator using mt19937 from <random> library
 	
