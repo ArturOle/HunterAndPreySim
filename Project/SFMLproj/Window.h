@@ -40,9 +40,10 @@ public:
 
 	void Loop();  // Main loop of the game, in this place window is beeing drawn on, cleared
 	void StopCondition();
-	void EndSession();
+	void EndSession(std::string res, std::string file_name);
 	void EventHandler();  // Takes care of all window events like resizing or closing the window
-  
+	void WriteData(std::string file_name);
+
 	void ShowMeDots();  // Raports names and positions of the Dots in dots vector to the console
 	void GenerateDots(int f=10, int b=0, int h=1, int c=1);
 	void Action();

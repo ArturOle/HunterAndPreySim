@@ -31,9 +31,7 @@ int Window::ReadOnInit(std::string file_name)
 				data = data + line[i];
 			}
 		}
-		std::cout << line << std::endl;
-		std::cout << obj << std::endl;
-		std::cout << data << std::endl;
+
 		switch (obj) 
 		{
 
@@ -65,6 +63,7 @@ void Window::Loop()
 		EventHandler();
 		Starve();
 		Action();
+		WriteData("sessiondata.txt");
 		StopCondition();
 		//ShowMeDots();
 	}
@@ -74,20 +73,28 @@ void Window::Loop()
 void Window::StopCondition()
 {
 	if (h > 10 * c) 
-		{
-		std::cout << "Herbivore won" << std::endl;
-		EndSession();
+	{
+		std::string result = "Herbivore won";
+		EndSession(result, "sessiondata.txt");
 	}
 	if (h == 0)
 	{
-		std::cout << "Carnivore won" << std::endl;
-		EndSession();
+		std::string result = "Carnivore won";
+		EndSession(result, "sessiondata.txt");
 	}	
 }
 
 
-void Window::EndSession()
+void Window::EndSession(std::string res, std::string file_name )
 {
+	std::ofstream FILE(file_name, std::ios::app);
+
+	if (FILE.is_open())
+	{
+		FILE << "result;" + res + ";\n";
+		FILE.close();
+	}
+
 	window.close();
 }
 
@@ -106,6 +113,19 @@ void Window::EventHandler()
 			break;
 		}
     }
+}
+
+
+void Window::WriteData(std::string file_name)
+{
+	std::string line = std::to_string(f)+";"+std::to_string(h)+";"+ std::to_string(c)+";\n";
+	std::ofstream FILE(file_name, std::ios::app);
+
+	if (FILE.is_open())
+	{
+		FILE << line;
+		FILE.close();
+	}
 }
 
 
