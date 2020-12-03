@@ -13,7 +13,6 @@ protected:
 	float y_position;
 
 	friend class Window;
-	//friend class Bot;
 
 public:
 

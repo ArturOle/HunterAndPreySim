@@ -5,10 +5,12 @@ Window::Window()
 {
 	ReadOnInit("dotdata.txt");
 	current_population = { f, h, c };
+
 	for (int i = 0; i < 3; i++)
 	{
 		std::cout << current_population[i] << std::endl;
 	}
+
 	window.setFramerateLimit(60);
 }
 
@@ -38,11 +40,11 @@ int Window::ReadOnInit(std::string file_name)
 		case 'f':
 			this->f = stoi(data);
 
-		case 'h':
-			this->h = stoi(data);
-
 		case 'c':
 			this->c = stoi(data);
+
+		case 'h':
+			this->h = stoi(data);
 
 		case 'b':
 			this->b = stoi(data);
@@ -54,6 +56,7 @@ int Window::ReadOnInit(std::string file_name)
 void Window::Loop()
 {
 	GenerateDots(f,b,h,c);
+
 	while (window.isOpen())
 	{
 		window.clear(sf::Color::Black);
@@ -63,7 +66,7 @@ void Window::Loop()
 		EventHandler();
 		Starve();
 		Action();
-		WriteData("sessiondata.txt");
+		//WriteData("sessiondata.txt");
 		StopCondition();
 		//ShowMeDots();
 	}
@@ -132,6 +135,7 @@ void Window::WriteData(std::string file_name)
 void Window::ShowMeDots()
 {
 	std::cout << "Dots in the vector: " << std::endl;
+
 	for (auto x : dots)
 	{
 		std::cout << x << " at x: " << x->x_position <<" y: "<< x->y_position<< std::endl;
@@ -142,6 +146,7 @@ void Window::ShowMeDots()
 void Window::GenerateDots(int f, int b, int h, int c)
 {
 	dots.reserve(f + b + h + c);
+
 	for (int i = 0; i < f; i++)
 	{
 		AddEntity<Food>(dots);
@@ -164,7 +169,8 @@ void Window::GenerateDots(int f, int b, int h, int c)
 void Window::Action()
 {
 	int i, j, max;
-	max = dots.size()-1;
+	max = dots.size();
+
 	for (i = 0; i < max; i++)
 	{
 		for (j = i + 1; j < max; j++) 
@@ -185,7 +191,7 @@ void Window::Update()
 		Bot* bot = dynamic_cast<Bot*>(x);
 		if (bot != NULL)
 		{
-			bot->Update();
+			bot->Update(0, 0);
 		}
 	}
 }
@@ -199,7 +205,7 @@ void Window::Test()
 		if(bot != NULL)
 		{
 			bot->Down();
-			bot->Update();
+			bot->Update(0, 0);
 		}
 	}
 }
@@ -208,7 +214,7 @@ void Window::Test()
 void Window::Starve()
 {
 	int x;
-	for ( x = 0; x < dots.size()-1; x++)
+	for ( x = 0; x < dots.size(); x++)
 	{
 		Carnivore* carni = dynamic_cast<Carnivore*>(dots[x]);
 		if (carni != nullptr)
@@ -231,7 +237,6 @@ void Window::HerbiAction(int i, int j)
 
 	if (type1 != nullptr && type2 != nullptr)
 	{
-		//std::cout << "interception of " << dots[i] << " " << dots[j] << std::endl;
 		extract<Herbivore>(i);
 		AddEntity<Food>(dots);
 		h++;
@@ -243,7 +248,6 @@ void Window::HerbiAction(int i, int j)
 
 		if (type1 != nullptr && type2 != nullptr)
 		{
-			//std::cout << "interception of " << dots[i] << " " << dots[j] << std::endl;
 			extract<Herbivore>(j);
 			AddEntity<Food>(dots);
 			h++;
@@ -265,14 +269,14 @@ void Window::CarniAction(int i, int j)
 	}
 	else
 	{
-		Herbivore* type1 = dynamic_cast<Herbivore*>(dots[j]);
-		Carnivore* type2 = dynamic_cast<Carnivore*>(dots[i]);
+		Herbivore* type1 = dynamic_cast<Herbivore*>(this->dots[j]);
+		Carnivore* type2 = dynamic_cast<Carnivore*>(this->dots[i]);
 
 		if (type1 != nullptr && type2 != nullptr)
 		{
 			CarniHandler(type2, j, i);
-			h--;
-			c++;
+			this->h--;
+			this->c++;
 		}
 		else 
 		{

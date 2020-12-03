@@ -11,7 +11,5 @@ public:
 	{
 		dot.setFillColor(sf::Color::Yellow);
 	}
-
-	void Eaten();
 };
 

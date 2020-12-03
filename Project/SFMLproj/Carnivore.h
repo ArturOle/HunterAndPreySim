@@ -9,6 +9,7 @@ class Carnivore : public Bot
 protected:
 	const time_t max_life_time = 10;
 	time_t birth_time;
+
 public:
 	Carnivore(int x_in, int y_in) : Bot(x_in, y_in)
 	{

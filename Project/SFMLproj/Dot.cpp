@@ -8,7 +8,6 @@ Dot::Dot(float x_in, float y_in)
 	dot.setPosition(x_position, y_position);
 	dot.setRadius(radius);
 	dot.setOrigin(this->radius, this->radius);
-	//dot.setFillColor(sf::Color::White);
 }
 
 

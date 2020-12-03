@@ -25,11 +25,26 @@ float Bot::Right()
 }
 
 
-void Bot::Update()
+void Bot::CurrentMovement(int move_x, int move_y)
 {
-	dot.move(this->velocity);
-	x_position = dot.getPosition().x;
-	y_position = dot.getPosition().y;
+	this->velocity.x = dot_velocity * move_x;
+	this->velocity.y = dot_velocity * move_y;
+}
+
+
+int Bot::randint(int from, int to)
+{
+	std::random_device rd;
+	std::mt19937 mt(rd());
+	std::uniform_int_distribution<int> dist(from, to);
+	int pseudorandom_number = dist(mt);
+	return pseudorandom_number;
+}
+
+
+void Bot::Update(int move_x=0, int move_y=0)
+{
+	CurrentMovement(randint(-1,1), randint(0, 0));
 
 	if (this->Down() < 0) 
 	{
@@ -48,4 +63,8 @@ void Bot::Update()
 	{
 		velocity.x = -dot_velocity;
 	}
+
+	dot.move(this->velocity);
+	x_position = dot.getPosition().x;
+	y_position = dot.getPosition().y;
 }

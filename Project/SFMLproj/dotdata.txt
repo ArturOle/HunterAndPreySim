@@ -1,4 +1,4 @@
 food=10
-carni=3
-herbi=3
-bot=0
+carni=1
+herbi=2
+bot=1

@@ -2,6 +2,8 @@
 #include "Dot.h"
 #include "Behavior.h"
 
+#include <random>
+
 #define height 600
 #define width 800
 
@@ -12,7 +14,7 @@ protected:
 	float dot_velocity = 3.0f;
 
 private:
-	sf::Vector2f velocity{ dot_velocity, dot_velocity };
+	sf::Vector2f velocity{ 0, 0 };
 
 public:
 	
@@ -22,12 +24,14 @@ public:
 		std::cout << "Bot " << this << " is born!" << std::endl;
 		dot.setFillColor(sf::Color::Blue);
 	}
-	
+
 	float Up();
 	float Down();
 	float Left();
 	float Right();
-	void Update();
-	void Death();
+
+	void CurrentMovement(int move_x, int move_y);
+	int randint(int from, int to);
+	void Update(int move_x, int move_y);
 };
 

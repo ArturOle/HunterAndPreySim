@@ -18,8 +18,10 @@ public:
 };
 
 
-/*The program implements polymorphism.
+/*
+The program implements polymorphism.
 • The program uses streams.
 • The program uses templates (user-defined or STL).
 • The program uses exceptions.
-• The program correctly manages the memory*/
+• The program correctly manages the memory
+*/
