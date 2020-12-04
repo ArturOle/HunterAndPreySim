@@ -60,14 +60,16 @@ void Window::Loop()
 	while (window.isOpen())
 	{
 		window.clear(sf::Color::Black);
+		Behaviorism();
 		Update();
 		DrawVector(dots);
 		window.display();
 		EventHandler();
+		Behaviorism();
 		Starve();
 		Action();
 		//WriteData("sessiondata.txt");
-		StopCondition();
+		//StopCondition();
 		//ShowMeDots();
 	}
 }
@@ -189,9 +191,12 @@ void Window::Update()
 	for (Dot* x : dots)
 	{
 		Bot* bot = dynamic_cast<Bot*>(x);
+		
 		if (bot != NULL)
 		{
-			bot->Update(0, 0);
+			bot->Update();
+			//Herbivore* herbi = dynamic_cast<Herbivore*>(bot);
+			//herbi->Update(herbi);
 		}
 	}
 }
@@ -205,7 +210,7 @@ void Window::Test()
 		if(bot != NULL)
 		{
 			bot->Down();
-			bot->Update(0, 0);
+			bot->Update();
 		}
 	}
 }
@@ -227,6 +232,15 @@ void Window::Starve()
 			}
 		}
 	}
+}
+
+
+float Window::CalcDistance(float x_from_in, float y_from_in, float x_to_in, float y_to_in)
+{
+	float x_move = x_from_in - x_to_in;
+	float y_move = y_from_in - y_to_in;
+
+	return sqrtf(pow(x_move, 2) + pow(y_move, 2));
 }
 
 
@@ -281,6 +295,68 @@ void Window::CarniAction(int i, int j)
 		else 
 		{
 			HerbiAction(i, j);
+		}
+	}
+}
+
+
+void Window::Behaviorism()
+{
+	int i, j, max;
+	float shortest_distance, distance;
+	shortest_distance = INFINITY;
+	max = dots.size();
+	for (i = 0; i < max; i++)
+	{
+		Herbivore* type1 = dynamic_cast<Herbivore*>(this->dots[i]);
+		shortest_distance = INFINITY;
+		if (type1 != nullptr)
+		{
+			shortest_distance = INFINITY;
+			for (j = 0; j < max; j++)
+			{
+				Food* type2 = dynamic_cast<Food*>(dots[j]);
+				if (type2 != nullptr)
+				{
+					distance = CalcDistance(dots[i]->x_position, dots[i]->y_position, dots[j]->x_position, dots[j]->y_position);
+					if (shortest_distance > distance)
+					{
+						shortest_distance = distance;
+						type1->SeakFood(dots[j]->x_position, dots[j]->y_position);
+					}
+				}
+				else
+				{
+					Carnivore* type2 = dynamic_cast<Carnivore*>(dots[j]);
+					if (type2 != nullptr)
+					{
+						distance = CalcDistance(dots[i]->x_position, dots[i]->y_position, dots[j]->x_position, dots[j]->y_position);
+						if (10 > distance)
+						{
+							type1->Flee(dots[j]->x_position, dots[j]->y_position);
+						}
+					}
+				}
+			}
+		}
+		Carnivore* type3 = dynamic_cast<Carnivore*>(this->dots[i]);
+		shortest_distance = INFINITY;
+		if (type3 != nullptr)
+		{
+			shortest_distance = INFINITY;
+			for (j = 0; j < max; j++)
+			{
+				Herbivore* type2 = dynamic_cast<Herbivore*>(dots[j]);
+				if (type2 != nullptr)
+				{
+					distance = CalcDistance(dots[i]->x_position, dots[i]->y_position, dots[j]->x_position, dots[j]->y_position);
+					if (shortest_distance > distance)
+					{
+						shortest_distance = distance;
+						type3->Hunt(dots[j]->x_position, dots[j]->y_position);
+					}
+				}
+			}
 		}
 	}
 }

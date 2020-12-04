@@ -1,6 +1,12 @@
 #include "Bot.h"
 
 
+char Bot::Type()
+{
+	return 'b';
+}
+
+
 float Bot::Up()
 {
 	return this->dot.getPosition().y + dot.getRadius();
@@ -42,10 +48,8 @@ int Bot::randint(int from, int to)
 }
 
 
-void Bot::Update(int move_x=0, int move_y=0)
+void Bot::Update()
 {
-	CurrentMovement(randint(-1,1), randint(0, 0));
-
 	if (this->Down() < 0) 
 	{
 		velocity.y = dot_velocity;

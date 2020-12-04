@@ -11,5 +11,7 @@ public:
 	{
 		dot.setFillColor(sf::Color::Yellow);
 	}
+
+	char Type();
 };
 

@@ -12,8 +12,6 @@ class Bot : public Dot
 protected:
 	bool alive;
 	float dot_velocity = 3.0f;
-
-private:
 	sf::Vector2f velocity{ 0, 0 };
 
 public:
@@ -25,6 +23,8 @@ public:
 		dot.setFillColor(sf::Color::Blue);
 	}
 
+	char Type();
+
 	float Up();
 	float Down();
 	float Left();
@@ -32,6 +32,6 @@ public:
 
 	void CurrentMovement(int move_x, int move_y);
 	int randint(int from, int to);
-	void Update(int move_x, int move_y);
+	void Update();
 };
 

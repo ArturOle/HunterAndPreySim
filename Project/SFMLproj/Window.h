@@ -50,9 +50,11 @@ public:
 	void Update();  // Updates state of every dot in the game 
 	void Test();  // Movement test
 	void Starve();  // Method responsible for checking on carnivores lifetime and if its too long it dies
+	
 
 	void HerbiAction(int i, int j);  // Expansion for Action method for herbivores 
 	void CarniAction(int i, int j);  // Expansion for Action method for carnivores
+	void Behaviorism();
 
 	template<typename T>
 	int AddEntity(std::vector<Dot*> &vec);   // Adding objects to the dots vector
@@ -68,6 +70,7 @@ public:
 	void CarniHandler(T2 type2, int i, int j);  // Helps carnivore eat and multiply 
 
 	int randint(int from, int to);  // Peudo-random number generator using mt19937 from <random> library
+	float CalcDistance(float x_from_in, float y_from_in, float x_to_in, float y_to_in);  //
 	
 	~Window();  // Destroys all dots inside of the dots vector and cleans the vector
 };
