@@ -23,13 +23,13 @@ public:
 		dot.setFillColor(sf::Color::Blue);
 	}
 
-	char Type();
+	char Type();  // Returns code type of this object, 'b' 
 
-	float Up();
-	float Down();
-	float Left();
-	float Right();
+	float Up();  // Caclulates higher boundry of a dot
+	float Down();  // Lower boundry
+	float Left();  // Left boundry
+	float Right();  // Right boundry
 
-	void Update();
+	void Update();  // Updates data od the dot, checks border collisions and changes velocity respectively
 };
 

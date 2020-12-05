@@ -7,7 +7,7 @@ class Dot : public sf::Drawable
 {
 protected:
 	sf::CircleShape dot;
-	sf::RenderTarget* target;
+	sf::RenderTarget* target;  // Where dot will be drawn
 	float radius = 10;
 	friend class Window;
 
@@ -18,7 +18,7 @@ public:
 	Dot(float x_in, float y_in);
 	Dot() = delete;
 
-	void draw(sf::RenderTarget& target, sf::RenderStates state) const override;
+	void draw(sf::RenderTarget& target, sf::RenderStates state) const override;  // overriding base class method draw to target Window and draw dot
 
 	~Dot() = default;
 };
