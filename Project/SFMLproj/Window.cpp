@@ -3,8 +3,15 @@
 
 Window::Window()
 {
-	ReadOnInit("dotdata.txt");
-	current_population = { f, h, c };
+	try 
+	{
+		ReadOnInit("dotdata.txt");
+		current_population = { f, h, c };
+	}
+	catch (FileNotOpened& e)
+	{
+		e.what();
+	}
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -20,12 +27,13 @@ int Window::ReadOnInit(std::string file_name)
 	std::string line;
 	std::ifstream inFile(file_name);
 
-	if (!inFile.is_open()) return 0;
+	if (!inFile.is_open()) throw FileNotOpened();
 
 	while (std::getline(inFile, line))
 	{
 		char obj = line[0];
 		std::string data = "";
+
 		for (int i = 0; i < line.size(); i++)
 		{
 			if (isdigit(line[i]))
@@ -36,20 +44,24 @@ int Window::ReadOnInit(std::string file_name)
 
 		switch (obj) 
 		{
-
 		case 'f':
 			this->f = stoi(data);
+			break;
 
 		case 'c':
 			this->c = stoi(data);
+			break;
 
 		case 'h':
 			this->h = stoi(data);
+			break;
 
 		case 'b':
 			this->b = stoi(data);
+			break;
 		}
 	}
+	return 1;
 }
 
 
@@ -60,16 +72,16 @@ void Window::Loop()
 	while (window.isOpen())
 	{
 		window.clear(sf::Color::Black);
-		Behaviorism();
 		Update();
 		DrawVector(dots);
 		window.display();
 		EventHandler();
-		Behaviorism();
 		Starve();
 		Action();
+		Behaviorism_C();
+		Behaviorism_H();
 		//WriteData("sessiondata.txt");
-		//StopCondition();
+		StopCondition();
 		//ShowMeDots();
 	}
 }
@@ -77,7 +89,7 @@ void Window::Loop()
 
 void Window::StopCondition()
 {
-	if (h > 10 * c) 
+	if (h > 20 * c) 
 	{
 		std::string result = "Herbivore won";
 		EndSession(result, "sessiondata.txt");
@@ -195,8 +207,6 @@ void Window::Update()
 		if (bot != NULL)
 		{
 			bot->Update();
-			//Herbivore* herbi = dynamic_cast<Herbivore*>(bot);
-			//herbi->Update(herbi);
 		}
 	}
 }
@@ -207,6 +217,7 @@ void Window::Test()
 	for(Dot* &x : dots)
 	{
 		Bot* bot = dynamic_cast<Bot*>(x);
+
 		if(bot != NULL)
 		{
 			bot->Down();
@@ -219,9 +230,11 @@ void Window::Test()
 void Window::Starve()
 {
 	int x;
+
 	for ( x = 0; x < dots.size(); x++)
 	{
 		Carnivore* carni = dynamic_cast<Carnivore*>(dots[x]);
+
 		if (carni != nullptr)
 		{
 			if (carni->CheckTime() >= 0) 
@@ -237,8 +250,8 @@ void Window::Starve()
 
 float Window::CalcDistance(float x_from_in, float y_from_in, float x_to_in, float y_to_in)
 {
-	float x_move = x_from_in - x_to_in;
-	float y_move = y_from_in - y_to_in;
+	float x_move = x_to_in - x_from_in;
+	float y_move = y_to_in - y_from_in;
 
 	return sqrtf(pow(x_move, 2) + pow(y_move, 2));
 }
@@ -300,60 +313,80 @@ void Window::CarniAction(int i, int j)
 }
 
 
-void Window::Behaviorism()
+void Window::Behaviorism_H()
 {
-	int i, j, max;
+	bool run = false;
 	float shortest_distance, distance;
-	shortest_distance = INFINITY;
-	max = dots.size();
-	for (i = 0; i < max; i++)
+
+	for (auto &x: dots)
 	{
-		Herbivore* type1 = dynamic_cast<Herbivore*>(this->dots[i]);
+		Herbivore* type1 = dynamic_cast<Herbivore*>(x);
 		shortest_distance = INFINITY;
+
 		if (type1 != nullptr)
 		{
-			shortest_distance = INFINITY;
-			for (j = 0; j < max; j++)
+			for (auto& y : dots)
 			{
-				Food* type2 = dynamic_cast<Food*>(dots[j]);
+				Carnivore* type2 = dynamic_cast<Carnivore*>(y);
+
 				if (type2 != nullptr)
 				{
-					distance = CalcDistance(dots[i]->x_position, dots[i]->y_position, dots[j]->x_position, dots[j]->y_position);
-					if (shortest_distance > distance)
+					distance = CalcDistance(x->x_position, x->y_position, y->x_position, y->y_position);
+
+					if (50 > distance)
 					{
-						shortest_distance = distance;
-						type1->SeakFood(dots[j]->x_position, dots[j]->y_position);
+						type1->Flee(y->x_position, y->y_position);
+						run = true;
+					}
+					else
+					{
+						run = false;
 					}
 				}
-				else
+				if(run == false)
 				{
-					Carnivore* type2 = dynamic_cast<Carnivore*>(dots[j]);
+					Food* type2 = dynamic_cast<Food*>(y);
+
 					if (type2 != nullptr)
 					{
-						distance = CalcDistance(dots[i]->x_position, dots[i]->y_position, dots[j]->x_position, dots[j]->y_position);
-						if (10 > distance)
+						distance = CalcDistance(x->x_position, x->y_position, y->x_position, y->y_position);
+
+						if (shortest_distance > distance)
 						{
-							type1->Flee(dots[j]->x_position, dots[j]->y_position);
+							shortest_distance = distance;
+							type1->SeakFood(y->x_position, y->y_position);
 						}
 					}
 				}
 			}
 		}
-		Carnivore* type3 = dynamic_cast<Carnivore*>(this->dots[i]);
+	}
+}
+
+
+void Window::Behaviorism_C()
+{
+	float shortest_distance, distance;
+
+	for (auto& x: dots)
+	{
+		Carnivore* type1 = dynamic_cast<Carnivore*>(x);
 		shortest_distance = INFINITY;
-		if (type3 != nullptr)
+
+		if (type1 != nullptr)
 		{
-			shortest_distance = INFINITY;
-			for (j = 0; j < max; j++)
+			for (auto& y: dots)
 			{
-				Herbivore* type2 = dynamic_cast<Herbivore*>(dots[j]);
+				Herbivore* type2 = dynamic_cast<Herbivore*>(y);
+
 				if (type2 != nullptr)
 				{
-					distance = CalcDistance(dots[i]->x_position, dots[i]->y_position, dots[j]->x_position, dots[j]->y_position);
-					if (shortest_distance > distance)
+					distance = CalcDistance(x->dot.getPosition().x, x->dot.getPosition().y, y->dot.getPosition().x, y->dot.getPosition().y);
+
+					if (distance < shortest_distance)
 					{
 						shortest_distance = distance;
-						type3->Hunt(dots[j]->x_position, dots[j]->y_position);
+						type1->Hunt(type2);
 					}
 				}
 			}

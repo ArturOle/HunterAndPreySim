@@ -31,23 +31,6 @@ float Bot::Right()
 }
 
 
-void Bot::CurrentMovement(int move_x, int move_y)
-{
-	this->velocity.x = dot_velocity * move_x;
-	this->velocity.y = dot_velocity * move_y;
-}
-
-
-int Bot::randint(int from, int to)
-{
-	std::random_device rd;
-	std::mt19937 mt(rd());
-	std::uniform_int_distribution<int> dist(from, to);
-	int pseudorandom_number = dist(mt);
-	return pseudorandom_number;
-}
-
-
 void Bot::Update()
 {
 	if (this->Down() < 0) 

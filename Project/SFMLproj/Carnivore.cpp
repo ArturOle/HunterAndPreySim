@@ -7,9 +7,11 @@ char Carnivore::Type()
 }
 
 
-void Carnivore::Hunt(float x_h, float y_h)
+void Carnivore::Hunt(Herbivore* herbi)
 {
-	this->velocity = behavior->Hunt(x_h, y_h);
+	this->velocity.x = 0;
+	this->velocity.y = 0;
+	this->velocity = behavior->Hunt(x_position, y_position, herbi->x_position, herbi->y_position);
 }
 
 

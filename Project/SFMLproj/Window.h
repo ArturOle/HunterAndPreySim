@@ -4,11 +4,12 @@
 #include <SFML/Graphics.hpp>
 
 #include <vector>
-//#include <random>
+#include <random>
 #include <iostream>
 #include <fstream>
 #include <sstream>
 
+#include "MyExceptions.h"
 #include "Food.h"
 #include "Carnivore.h"
 #include "Herbivore.h"
@@ -16,14 +17,14 @@
 
 /*
 Requirments achived here:
-	- using tamplates ( STL )
-	- using polimorphizm ( Bot inherits to Carnivore and Herbivore )
+	- using tamplates ( STL and SFML, and self-made)
+	- using polimorphizm ( Carnivore and Herbivore inherits from Bot, Bot inherits from Dot, Dot inherits from sf::drawable )
 	- streams ( saving data and reading data )
-	- exceptions ( where are streams there are exceptions )
+	- exceptions
 */
 
-#define width 800
-#define height 600
+#define width 1000  //screen width
+#define height 800  // screen height
 
 class Window
 {
@@ -51,10 +52,10 @@ public:
 	void Test();  // Movement test
 	void Starve();  // Method responsible for checking on carnivores lifetime and if its too long it dies
 	
-
 	void HerbiAction(int i, int j);  // Expansion for Action method for herbivores 
 	void CarniAction(int i, int j);  // Expansion for Action method for carnivores
-	void Behaviorism();
+	void Behaviorism_H();  // Behaviors and choices of action of herbivores
+	void Behaviorism_C();  // Behaviors of carnivores 
 
 	template<typename T>
 	int AddEntity(std::vector<Dot*> &vec);   // Adding objects to the dots vector
@@ -79,7 +80,7 @@ public:
 template<typename T>
 inline int Window::AddEntity(std::vector<Dot*> &vec)
 {
-	vec.push_back(new T(randint(0, 800), randint(0, 600)));
+	vec.push_back(new T(randint(0, width), randint(0, height)));
 	vec.shrink_to_fit();
 	return 0;
 }

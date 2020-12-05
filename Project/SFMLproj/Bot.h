@@ -2,17 +2,17 @@
 #include "Dot.h"
 #include "Behavior.h"
 
-#include <random>
 
-#define height 600
-#define width 800
+#define height 800
+#define width 1000
+
 
 class Bot : public Dot
 {
 protected:
 	bool alive;
 	float dot_velocity = 3.0f;
-	sf::Vector2f velocity{ 0, 0 };
+	sf::Vector2f velocity;
 
 public:
 	
@@ -30,8 +30,6 @@ public:
 	float Left();
 	float Right();
 
-	void CurrentMovement(int move_x, int move_y);
-	int randint(int from, int to);
 	void Update();
 };
 

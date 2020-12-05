@@ -9,7 +9,7 @@ public:
 	Herbivore(int x_in, int y_in) : Bot(x_in, y_in)
 	{
 		dot.setFillColor(sf::Color::Green);
-		behavior = new Behavior_H(x_in, y_in);
+		behavior = new Behavior_H();
 	}
 
 	char Type();
