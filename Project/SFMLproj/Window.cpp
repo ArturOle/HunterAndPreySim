@@ -327,22 +327,6 @@ void Window::Behaviorism_H()
 		{
 			for (auto& y : dots)
 			{
-				Carnivore* type2 = dynamic_cast<Carnivore*>(y);
-
-				if (type2 != nullptr)
-				{
-					distance = CalcDistance(x->x_position, x->y_position, y->x_position, y->y_position);
-
-					if (50 > distance)
-					{
-						type1->Flee(y->x_position, y->y_position);
-						run = true;
-					}
-					else
-					{
-						run = false;
-					}
-				}
 				if(run == false)
 				{
 					Food* type2 = dynamic_cast<Food*>(y);
@@ -356,6 +340,22 @@ void Window::Behaviorism_H()
 							shortest_distance = distance;
 							type1->SeakFood(y->x_position, y->y_position);
 						}
+					}
+				}
+				Carnivore* type2 = dynamic_cast<Carnivore*>(y);
+
+				if (type2 != nullptr)
+				{
+					distance = CalcDistance(x->x_position, x->y_position, y->x_position, y->y_position);
+
+					if (100 > distance)
+					{
+						type1->Flee(y->x_position, y->y_position);
+						run = true;
+					}
+					else
+					{
+						run = false;
 					}
 				}
 			}

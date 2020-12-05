@@ -17,7 +17,7 @@ void Carnivore::Hunt(Herbivore* herbi)
 
 void Carnivore::AddTime()
 {
-	birth_time = birth_time + 10;
+	birth_time = birth_time + 5;
 }
 
 
