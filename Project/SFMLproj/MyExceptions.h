@@ -2,8 +2,9 @@
 #include <exception>
 
 
-struct FileNotOpened : public std::exception
+class FileNotOpened : public std::exception
 {
+public:
 	const char* what() const throw ()
 	{
 		return "File Not Opened";
