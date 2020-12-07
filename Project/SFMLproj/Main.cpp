@@ -27,6 +27,6 @@ Simulation of possible behavior of some animals.
 Green dots - the pray, devides into two after eating food ( yellow dot )
 Red dots - the hunter, multiplies after eating blue dot. Red dot will sterve after x sec without eating.
 
-green dots wins when acchive y multiple of red dots.
-red dots win when all blue dot will be eaten	
+green dots wins when achive y multiple of red dots.
+red dots win when all green dot will be eaten	
 */

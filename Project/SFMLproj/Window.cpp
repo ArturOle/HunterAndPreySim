@@ -80,7 +80,7 @@ void Window::Loop()
 		Action();
 		Behaviorism_C();
 		Behaviorism_H();
-		//WriteData("sessiondata.txt");
+		WriteData("sessiondata.txt");
 		StopCondition();
 		//ShowMeDots();
 	}
@@ -288,7 +288,7 @@ void Window::CarniAction(int i, int j)
 	Herbivore* type1 = dynamic_cast<Herbivore*>(dots[i]);
 	Carnivore* type2 = dynamic_cast<Carnivore*>(dots[j]);
 
-	if (dynamic_cast<Herbivore*>(dots[i]) != nullptr && dynamic_cast<Carnivore*>(dots[j]) != nullptr)
+	if (type1 != nullptr && type2 != nullptr)
 	{
 		CarniHandler(type2, i, j);
 		h--;
@@ -368,7 +368,7 @@ void Window::Behaviorism_C()
 {
 	float shortest_distance, distance;
 
-	for (auto& x: dots)
+	for (auto x: dots)
 	{
 		Carnivore* type1 = dynamic_cast<Carnivore*>(x);
 		shortest_distance = INFINITY;
