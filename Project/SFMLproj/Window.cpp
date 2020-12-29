@@ -55,10 +55,6 @@ int Window::ReadOnInit(std::string file_name)
 		case 'h':
 			this->h = stoi(data);
 			break;
-
-		case 'b':
-			this->b = stoi(data);
-			break;
 		}
 	}
 	return 1;
@@ -67,23 +63,33 @@ int Window::ReadOnInit(std::string file_name)
 
 void Window::Loop()
 {
-	GenerateDots(f,b,h,c);
+	GenerateDots();
 
 	while (window.isOpen())
 	{
 		window.clear(sf::Color::Black);
 		Update();
-		DrawVector(dots);
+		DrawVectors();
 		window.display();
 		EventHandler();
 		Starve();
 		Action();
 		Behaviorism_C();
 		Behaviorism_H();
-		WriteData("sessiondata.txt");
-		StopCondition();
+		//WriteData("sessiondata.txt");
+		//StopCondition();
 		//ShowMeDots();
 	}
+}
+
+
+void Window::DrawVectors() 
+{
+	DrawVector(dots);
+	DrawVector(bots);
+	DrawVector(foods);
+	DrawVector(herbi);
+	DrawVector(carni);
 }
 
 
@@ -146,83 +152,53 @@ void Window::WriteData(std::string file_name)
 }
 
 
-void Window::ShowMeDots()
+void Window::GenerateDots(int d, int b, int f, int h, int c)
 {
-	std::cout << "Dots in the vector: " << std::endl;
-
-	for (auto x : dots)
+	for (int i = 0; i < d; i++)
 	{
-		std::cout << x << " at x: " << x->x_position <<" y: "<< x->y_position<< std::endl;
-	}
-}
-
-
-void Window::GenerateDots(int f, int b, int h, int c)
-{
-	dots.reserve(f + b + h + c);
-
-	for (int i = 0; i < f; i++)
-	{
-		AddEntity<Food>(dots);
+		AddEntity<Dot>(dots);
 	}
 	for (int i = 0; i < b; i++)
 	{
-		AddEntity<Bot>(dots);
+		AddEntity<Bot>(bots);
+	}
+	for (int i = 0; i < f; i++)
+	{
+		AddEntity<Food>(foods);
 	}
 	for (int i = 0; i < h; i++)
 	{
-		AddEntity<Herbivore>(dots);
+		AddEntity<Herbivore>(herbi);
 	}
 	for (int i = 0; i < c; i++)
 	{
-		AddEntity<Carnivore>(dots);
+		AddEntity<Carnivore>(carni);
 	}
 }
 
 
 void Window::Action()
 {
-	int i, j, max;
-	max = dots.size();
-
-	for (i = 0; i < max; i++)
-	{
-		for (j = i + 1; j < max; j++) 
-		{
-			if (IsIntersecting(dots[i], dots[j]))
-			{
-				CarniAction(i, j);
-			}
-		}
-	}
+	HerbiAction();
+	CarniAction();
 }
 
 
 void Window::Update()
 {
-	for (Dot* x : dots)
+	for (Bot* x : bots)
 	{
-		Bot* bot = dynamic_cast<Bot*>(x);
-		
-		if (bot != NULL)
-		{
-			bot->Update();
-		}
+		x->Update();	
 	}
-}
 
-
-void Window::Test()
-{
-	for(Dot* &x : dots)
+	for (Herbivore* x : herbi)
 	{
-		Bot* bot = dynamic_cast<Bot*>(x);
+		x->Update();
+	}
 
-		if(bot != NULL)
-		{
-			bot->Down();
-			bot->Update();
-		}
+	for (Carnivore* x : carni)
+	{
+		x->Update();
 	}
 }
 
@@ -231,18 +207,13 @@ void Window::Starve()
 {
 	int x;
 
-	for ( x = 0; x < dots.size(); x++)
+	for ( x = 0; x < carni.size(); x++)
 	{
-		Carnivore* carni = dynamic_cast<Carnivore*>(dots[x]);
-
-		if (carni != nullptr)
+		if (carni[x]->CheckTime() >= 0) 
 		{
-			if (carni->CheckTime() >= 0) 
-			{
-				delete dots[x];
-				dots.erase(dots.begin()+x);
-				this->c--;
-			}
+			delete carni[x];
+			carni.erase(carni.begin()+x);
+			this->c--;
 		}
 	}
 }
@@ -257,57 +228,39 @@ float Window::CalcDistance(float x_from_in, float y_from_in, float x_to_in, floa
 }
 
 
-void Window::HerbiAction(int i, int j)
+void Window::HerbiAction()
 {
-	Food* type1 = dynamic_cast<Food*>(dots[i]);
-	Herbivore* type2 = dynamic_cast<Herbivore*>(dots[j]);
-
-	if (type1 != nullptr && type2 != nullptr)
+	int i, j;
+	
+	for (i = 0; i < herbi.size(); i++)
 	{
-		extract<Herbivore>(i);
-		AddEntity<Food>(dots);
-		h++;
-	}
-	else
-	{
-		Food* type1 = dynamic_cast<Food*>(dots[j]);
-		Herbivore* type2 = dynamic_cast<Herbivore*>(dots[i]);
-
-		if (type1 != nullptr && type2 != nullptr)
+		for (j = 0; j < foods.size(); j++)
 		{
-			extract<Herbivore>(j);
-			AddEntity<Food>(dots);
-			h++;
+			if(IsIntersecting(herbi[i], foods[j]))
+			{
+				Extract(foods, j);
+				AddEntity<Food>(foods);
+				h++;
+			}
 		}
 	}
 }
 
 
-void Window::CarniAction(int i, int j)
+void Window::CarniAction()
 {
-	Herbivore* type1 = dynamic_cast<Herbivore*>(dots[i]);
-	Carnivore* type2 = dynamic_cast<Carnivore*>(dots[j]);
+	int i, j;
 
-	if (type1 != nullptr && type2 != nullptr)
+	for (i = 0; i < carni.size(); i++)
 	{
-		CarniHandler(type2, i, j);
-		h--;
-		c++;
-	}
-	else
-	{
-		Herbivore* type1 = dynamic_cast<Herbivore*>(this->dots[j]);
-		Carnivore* type2 = dynamic_cast<Carnivore*>(this->dots[i]);
-
-		if (type1 != nullptr && type2 != nullptr)
+		for (j = 0; j < herbi.size(); j++)
 		{
-			CarniHandler(type2, j, i);
-			this->h--;
-			this->c++;
-		}
-		else 
-		{
-			HerbiAction(i, j);
+			if (IsIntersecting(carni[i], herbi[j]))
+			{
+				CarniHandler(carni[i], j);
+				h--;
+				c++;
+			}
 		}
 	}
 }
@@ -318,49 +271,61 @@ void Window::Behaviorism_H()
 	bool run = false;
 	float shortest_distance, distance;
 
-	for (auto &x: dots)
+	for (auto& x: herbi)
 	{
-		Herbivore* type1 = dynamic_cast<Herbivore*>(x);
 		shortest_distance = INFINITY;
 
-		if (type1 != nullptr)
+		for (auto& y : foods)
 		{
-			for (auto& y : dots)
+			if (run == false)
 			{
-				if(run == false)
+				distance = CalcDistance(x->x_position, x->y_position, y->x_position, y->y_position);
+
+				if (shortest_distance > distance)
 				{
-					Food* type2 = dynamic_cast<Food*>(y);
-
-					if (type2 != nullptr)
-					{
-						distance = CalcDistance(x->x_position, x->y_position, y->x_position, y->y_position);
-
-						if (shortest_distance > distance)
-						{
-							shortest_distance = distance;
-							type1->SeakFood(y->x_position, y->y_position);
-						}
-					}
-				}
-				Carnivore* type2 = dynamic_cast<Carnivore*>(y);
-
-				if (type2 != nullptr)
-				{
-					distance = CalcDistance(x->x_position, x->y_position, y->x_position, y->y_position);
-
-					if (100 > distance)
-					{
-						type1->Flee(y->x_position, y->y_position);
-						run = true;
-					}
-					else
-					{
-						run = false;
-					}
+					shortest_distance = distance;
+					x->SeakFood(y->x_position, y->y_position);
 				}
 			}
 		}
+
+		for (auto& y : carni) 
+		{
+			distance = CalcDistance(x->x_position, x->y_position, y->x_position, y->y_position);
+
+			if (100 > distance)
+			{
+				x->Flee(y->x_position, y->y_position);
+				run = true;
+			}
+			else
+			{
+				run = false;
+			}
+		}
 	}
+}
+
+
+void Window::Extract(std::vector<Food*> vec, int j)
+{
+	int x, y;
+	x = foods[j]->dot.getPosition().x;
+	y = foods[j]->dot.getPosition().y;
+	delete foods[j];
+	foods.erase(foods.begin()+j);
+	herbi.push_back(new Herbivore(x, y));
+}
+
+
+void Window::Extract(std::vector<Herbivore*> vec, int j)
+{
+	int x, y;
+	x = herbi[j]->dot.getPosition().x;
+	y = herbi[j]->dot.getPosition().y;
+	delete herbi[j];
+	herbi.erase(herbi.begin() + j);
+	carni.push_back(new Carnivore(x, y));
 }
 
 
@@ -368,27 +333,18 @@ void Window::Behaviorism_C()
 {
 	float shortest_distance, distance;
 
-	for (auto x: dots)
+	for (auto &x: carni)
 	{
-		Carnivore* type1 = dynamic_cast<Carnivore*>(x);
 		shortest_distance = INFINITY;
 
-		if (type1 != nullptr)
+		for (auto& y: herbi)
 		{
-			for (auto& y: dots)
+			distance = CalcDistance(x->dot.getPosition().x, x->dot.getPosition().y, y->dot.getPosition().x, y->dot.getPosition().y);
+
+			if (distance < shortest_distance)
 			{
-				Herbivore* type2 = dynamic_cast<Herbivore*>(y);
-
-				if (type2 != nullptr)
-				{
-					distance = CalcDistance(x->dot.getPosition().x, x->dot.getPosition().y, y->dot.getPosition().x, y->dot.getPosition().y);
-
-					if (distance < shortest_distance)
-					{
-						shortest_distance = distance;
-						type1->Hunt(type2);
-					}
-				}
+				shortest_distance = distance;
+				x->Hunt(y);
 			}
 		}
 	}
@@ -404,8 +360,16 @@ int Window::randint(int from, int to)
 	return pseudorandom_number;
 }
 
+void Window::ClearVectors()
+{
+	ClearVector(dots);
+	ClearVector(bots);
+	ClearVector(foods);
+	ClearVector(herbi);
+	ClearVector(carni);
+}
 
 Window::~Window()
 {
-	ClearVector(dots);
+	ClearVectors();
 }

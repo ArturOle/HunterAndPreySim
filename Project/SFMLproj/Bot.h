@@ -10,7 +10,7 @@
 class Bot : public Dot
 {
 protected:
-	bool alive;
+	bool alive = true;
 	float dot_velocity = 3.0f;
 	sf::Vector2f velocity;
 
@@ -18,7 +18,6 @@ public:
 	
 	Bot(float x_in, float y_in) :Dot(x_in, y_in) 
 	{ 
-		alive = true;
 		std::cout << "Bot " << this << " is born!" << std::endl;
 		dot.setFillColor(sf::Color::Blue);
 	}
