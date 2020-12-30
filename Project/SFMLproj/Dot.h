@@ -9,6 +9,7 @@ protected:
 	sf::CircleShape dot;
 	sf::RenderTarget* target;  // Where dot will be drawn
 	float radius = 10;
+	friend class Storage;
 	friend class Window;
 
 public:

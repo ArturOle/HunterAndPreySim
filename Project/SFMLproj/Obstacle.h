@@ -10,10 +10,10 @@ protected:
 	friend class Window;
 
 public:
-	int width, height;
+	int a, b;
 	float x_position, y_position;
 
-	Obstacle(int width, int height, float x_position, float y_position);
+	Obstacle(int a, int b, float x_position, float y_position);
 	Obstacle() = delete;
 
 	void bound_left();

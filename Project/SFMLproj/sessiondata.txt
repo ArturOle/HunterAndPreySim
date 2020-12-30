@@ -1421,3 +1421,5 @@ result;Herbivore won;
 result;Herbivore won;
 result;Herbivore won;
 result;Herbivore won;
+result;Herbivore won;
+result;Herbivore won;

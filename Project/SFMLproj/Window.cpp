@@ -63,7 +63,7 @@ int Window::ReadOnInit(std::string file_name)
 
 void Window::Loop()
 {
-	GenerateDots(0, 0, f, h, c);
+	storage = new Storage(f, h, c);
 
 	while (window.isOpen())
 	{
@@ -85,11 +85,11 @@ void Window::Loop()
 
 void Window::DrawVectors() 
 {
-	DrawVector(dots);
-	DrawVector(bots);
-	DrawVector(foods);
-	DrawVector(herbi);
-	DrawVector(carni);
+	DrawVector(storage->dots);
+	DrawVector(storage->bots);
+	DrawVector(storage->foods);
+	DrawVector(storage->herbi);
+	DrawVector(storage->carni);
 }
 
 
@@ -154,34 +154,7 @@ void Window::WriteData(std::string file_name)
 
 void Window::ShowDotsData()
 {
-	ShowVector(foods);
-	ShowVector(herbi);
-	ShowVector(carni);
-}
-
-
-void Window::GenerateDots(int d, int b, int f, int h, int c)
-{
-	for (int i = 0; i < d; i++)
-	{
-		AddEntity<Dot>(dots);
-	}
-	for (int i = 0; i < b; i++)
-	{
-		AddEntity<Bot>(bots);
-	}
-	for (int i = 0; i < f; i++)
-	{
-		AddEntity<Food>(foods);
-	}
-	for (int i = 0; i < h; i++)
-	{
-		AddEntity<Herbivore>(herbi);
-	}
-	for (int i = 0; i < c; i++)
-	{
-		AddEntity<Carnivore>(carni);
-	}
+	storage->ShowDotsData();
 }
 
 
@@ -194,17 +167,17 @@ void Window::Action()
 
 void Window::Update()
 {
-	for (Bot* x : bots)
+	for (Bot* x : storage->bots)
 	{
 		x->Update();	
 	}
 
-	for (Herbivore* x : herbi)
+	for (Herbivore* x : storage->herbi)
 	{
 		x->Update();
 	}
 
-	for (Carnivore* x : carni)
+	for (Carnivore* x : storage->carni)
 	{
 		x->Update();
 	}
@@ -215,12 +188,12 @@ void Window::Starve()
 {
 	int x;
 
-	for ( x = 0; x < carni.size(); x++)
+	for ( x = 0; x < storage->carni.size(); x++)
 	{
-		if (carni[x]->CheckTime() >= 0) 
+		if (storage->carni[x]->CheckTime() >= 0) 
 		{
-			delete carni[x];
-			carni.erase(carni.begin()+x);
+			delete storage->carni[x];
+			storage->carni.erase(storage->carni.begin()+x);
 			this->c--;
 		}
 	}
@@ -240,14 +213,14 @@ void Window::HerbiAction()
 {
 	int i, j;
 	
-	for (i = 0; i < herbi.size(); i++)
+	for (i = 0; i < storage->herbi.size(); i++)
 	{
-		for (j = 0; j < foods.size(); j++)
+		for (j = 0; j < storage->foods.size(); j++)
 		{
-			if(IsIntersecting(herbi[i], foods[j]))
+			if(IsIntersecting(storage->herbi[i], storage->foods[j]))
 			{
-				Extract(foods, j);
-				AddEntity<Food>(foods);
+				storage->Extract(storage->foods, j);
+				storage->AddEntity<Food>(storage->foods);
 				h++;
 			}
 		}
@@ -259,13 +232,13 @@ void Window::CarniAction()
 {
 	int i, j;
 
-	for (i = 0; i < carni.size(); i++)
+	for (i = 0; i < storage->carni.size(); i++)
 	{
-		for (j = 0; j < herbi.size(); j++)
+		for (j = 0; j < storage->herbi.size(); j++)
 		{
-			if (IsIntersecting(carni[i], herbi[j]))
+			if (IsIntersecting(storage->carni[i], storage->herbi[j]))
 			{
-				CarniHandler(carni[i], j);
+				CarniHandler(storage->carni[i], j);
 				h--;
 				c++;
 			}
@@ -279,11 +252,11 @@ void Window::Behaviorism_H()
 	bool run = false;
 	float shortest_distance, distance;
 
-	for (auto& x: herbi)
+	for (auto& x: storage->herbi)
 	{
 		shortest_distance = INFINITY;
 
-		for (auto& y : foods)
+		for (auto& y : storage->foods)
 		{
 			if (run == false)
 			{
@@ -297,7 +270,7 @@ void Window::Behaviorism_H()
 			}
 		}
 
-		for (auto& y : carni) 
+		for (auto& y : storage->carni) 
 		{
 			distance = CalcDistance(x->x_position, x->y_position, y->x_position, y->y_position);
 
@@ -315,37 +288,15 @@ void Window::Behaviorism_H()
 }
 
 
-void Window::Extract(std::vector<Food*> vec, int j)
-{
-	int x, y;
-	x = foods[j]->dot.getPosition().x;
-	y = foods[j]->dot.getPosition().y;
-	delete foods[j];
-	foods.erase(foods.begin()+j);
-	herbi.push_back(new Herbivore(x, y));
-}
-
-
-void Window::Extract(std::vector<Herbivore*> vec, int j)
-{
-	int x, y;
-	x = herbi[j]->dot.getPosition().x;
-	y = herbi[j]->dot.getPosition().y;
-	delete herbi[j];
-	herbi.erase(herbi.begin() + j);
-	carni.push_back(new Carnivore(x, y));
-}
-
-
 void Window::Behaviorism_C()
 {
 	float shortest_distance, distance;
 
-	for (auto &x: carni)
+	for (auto &x: storage->carni)
 	{
 		shortest_distance = INFINITY;
 
-		for (auto& y: herbi)
+		for (auto& y: storage->herbi)
 		{
 			distance = CalcDistance(x->dot.getPosition().x, x->dot.getPosition().y, y->dot.getPosition().x, y->dot.getPosition().y);
 
@@ -359,27 +310,7 @@ void Window::Behaviorism_C()
 }
 
 
-int Window::randint(int from, int to)
-{
-	std::random_device rd;
-	std::mt19937 mt(rd());
-	std::uniform_int_distribution<int> dist(from, to);
-	int pseudorandom_number = dist(mt);
-	return pseudorandom_number;
-}
-
-
-void Window::ClearVectors()
-{
-	ClearVector(dots);
-	ClearVector(bots);
-	ClearVector(foods);
-	ClearVector(herbi);
-	ClearVector(carni);
-}
-
-
 Window::~Window()
 {
-	ClearVectors();
+	delete storage;
 }
