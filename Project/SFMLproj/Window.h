@@ -4,7 +4,6 @@
 #include <SFML/Graphics.hpp>
 
 #include <vector>
-#include <variant>
 #include <random>
 #include <iostream>
 #include <fstream>
@@ -12,6 +11,7 @@
 #include <any>
 
 #include "MyExceptions.h"
+#include "Obstacle.h"
 #include "Food.h"
 #include "Carnivore.h"
 #include "Herbivore.h"
@@ -36,6 +36,7 @@ class Window
 	std::vector<int> current_population = {0, 0, 0};  // Keeps track on quantity of particular types of dots {food, herbivore, carnivore)
 	sf::RenderWindow window{ sf::VideoMode{width, height}, "Hunt it my son", sf::Style::Close | sf::Style::Titlebar };  // SFML object creating a window 
 	
+	std::vector<Obstacle*> obstacles;
 	std::vector<Dot*> dots;  // Vector responsible for menaging and storing created dots
 	std::vector<Food*> foods;
 	std::vector<Bot*> bots;
@@ -53,6 +54,7 @@ public:
 	void EndSession(std::string res, std::string file_name);  // Stops the session, writes result to the session data
 	void EventHandler();  // Takes care of all window events like resizing or closing the window
 	void WriteData(std::string file_name);  // Writes current population of food, herbivores and carnivors to sessiondata.txt in every frame
+	void ShowDotsData();
 
 	void GenerateDots(int d=1, int b=1, int f=5, int h=1, int c=1);  // Resizes dots vector and fill it with quantities read by ReadOnInit /line 39/ 
 	void Action();  // Checks types of intersecting objects end executes procedures ( for example wen carnivor hits herbivore, herbivore is eaten, carnvore multiplies)
@@ -68,6 +70,9 @@ public:
 	void Extract(std::vector<Food*> vec, int j);
 	void Extract(std::vector<Herbivore*> vec, int j);
 
+
+	template<typename T>
+	void ShowVector(std::vector<T*> vec);
 	template<typename T>
 	int AddEntity(std::vector<T*> &vec);   // Adding objects to the dots vector
 	template<typename T1, typename T2>
@@ -85,6 +90,18 @@ public:
 
 	~Window();  // Destroys all dots inside of the dots vector and cleans the vector
 };
+
+
+template<typename T>
+inline void Window::ShowVector(std::vector<T*> vec)
+{
+	std::cout << "Vector of " << typeid(T).name() << ": " << std::endl;
+
+	for (auto& dot : vec)
+	{
+		std::cout << dot << std::endl;
+	}
+}
 
 
 template<typename T>

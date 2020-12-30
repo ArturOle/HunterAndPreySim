@@ -63,7 +63,7 @@ int Window::ReadOnInit(std::string file_name)
 
 void Window::Loop()
 {
-	GenerateDots();
+	GenerateDots(0, 0, f, h, c);
 
 	while (window.isOpen())
 	{
@@ -77,8 +77,8 @@ void Window::Loop()
 		Behaviorism_C();
 		Behaviorism_H();
 		//WriteData("sessiondata.txt");
-		//StopCondition();
-		//ShowMeDots();
+		ShowDotsData();
+		StopCondition();
 	}
 }
 
@@ -149,6 +149,14 @@ void Window::WriteData(std::string file_name)
 		FILE << line;
 		FILE.close();
 	}
+}
+
+
+void Window::ShowDotsData()
+{
+	ShowVector(foods);
+	ShowVector(herbi);
+	ShowVector(carni);
 }
 
 
@@ -360,6 +368,7 @@ int Window::randint(int from, int to)
 	return pseudorandom_number;
 }
 
+
 void Window::ClearVectors()
 {
 	ClearVector(dots);
@@ -368,6 +377,7 @@ void Window::ClearVectors()
 	ClearVector(herbi);
 	ClearVector(carni);
 }
+
 
 Window::~Window()
 {

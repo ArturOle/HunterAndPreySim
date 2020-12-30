@@ -17,6 +17,8 @@ public:
 	void Flee(float x_c, float y_c);  // Provide carnivore coordinates to behavior_h->Flee and change velocity
 	void SeakFood(float x_f, float y_f);  // Provide food coordinates to behavior_h->Flee and change velocity
 
+	void Decision();
+
 	~Herbivore();
 };
 

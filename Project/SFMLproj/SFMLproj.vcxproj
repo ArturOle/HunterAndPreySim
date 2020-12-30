@@ -27,6 +27,8 @@
     <ClInclude Include="Herbivore.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="MyExceptions.h" />
+    <ClInclude Include="Obstacle.h" />
+    <ClInclude Include="Storage.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
@@ -37,6 +39,8 @@
     <ClCompile Include="Food.cpp" />
     <ClCompile Include="Herbivore.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Obstacle.cpp" />
+    <ClCompile Include="Storage.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
