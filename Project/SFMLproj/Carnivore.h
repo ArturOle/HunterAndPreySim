@@ -27,6 +27,26 @@ public:
 	void AddTime();  // Adds 5 seconds after eating herbivore
 	int CheckTime();  // Controls carnivores lifetime
 
+	template<typename T>
+	void Decision(T storage);
+
 	~Carnivore();
 };
 
+template<typename T>
+inline void Carnivore::Decision(T storage)
+{
+	float shortest_distance, distance;
+	shortest_distance = INFINITY;
+
+	for (auto& y : storage->herbi)
+	{
+		distance = storage->CalcDistance(this->x_position, this->y_position, y->x_position, y->y_position);
+
+		if (distance < shortest_distance)
+		{
+			shortest_distance = distance;
+			this->Hunt(y);
+		}
+	}
+}

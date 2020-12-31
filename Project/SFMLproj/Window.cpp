@@ -74,8 +74,8 @@ void Window::Loop()
 		EventHandler();
 		Starve();
 		Action();
-		Behaviorism_C();
-		Behaviorism_H();
+		storage->Behaviorism_C();
+		storage->Behaviorism_H();
 		//WriteData("sessiondata.txt");
 		ShowDotsData();
 		StopCondition();
@@ -245,70 +245,6 @@ void Window::CarniAction()
 		}
 	}
 }
-
-
-void Window::Behaviorism_H()
-{
-	bool run = false;
-	float shortest_distance, distance;
-
-	for (auto& x: storage->herbi)
-	{
-		shortest_distance = INFINITY;
-
-		for (auto& y : storage->foods)
-		{
-			if (run == false)
-			{
-				distance = CalcDistance(x->x_position, x->y_position, y->x_position, y->y_position);
-
-				if (shortest_distance > distance)
-				{
-					shortest_distance = distance;
-					x->SeakFood(y->x_position, y->y_position);
-				}
-			}
-		}
-
-		for (auto& y : storage->carni) 
-		{
-			distance = CalcDistance(x->x_position, x->y_position, y->x_position, y->y_position);
-
-			if (100 > distance)
-			{
-				x->Flee(y->x_position, y->y_position);
-				run = true;
-			}
-			else
-			{
-				run = false;
-			}
-		}
-	}
-}
-
-
-void Window::Behaviorism_C()
-{
-	float shortest_distance, distance;
-
-	for (auto &x: storage->carni)
-	{
-		shortest_distance = INFINITY;
-
-		for (auto& y: storage->herbi)
-		{
-			distance = CalcDistance(x->dot.getPosition().x, x->dot.getPosition().y, y->dot.getPosition().x, y->dot.getPosition().y);
-
-			if (distance < shortest_distance)
-			{
-				shortest_distance = distance;
-				x->Hunt(y);
-			}
-		}
-	}
-}
-
 
 Window::~Window()
 {

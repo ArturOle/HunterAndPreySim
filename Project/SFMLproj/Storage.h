@@ -12,6 +12,8 @@ class Storage
 {
 private:
 	friend class Window;
+	friend class Herbivore;
+	friend class Carnivore;
 	std::vector<Obstacle*> obstacles;
 	std::vector<Dot*> dots;  // Vector responsible for menaging and storing created dots
 	std::vector<Food*> foods;
@@ -29,6 +31,12 @@ public:
 	void Extract(std::vector<Herbivore*> vec, int j);
 
 	int randint(int from, int to);
+
+	void Behaviorism_H();
+
+	void Behaviorism_C();
+
+	float CalcDistance(float x_from_in, float y_from_in, float x_to_in, float y_to_in);
 
 	template<typename T>
 	void AddEntity(std::vector<T*>& vec);   // Adding objects to the dots vector

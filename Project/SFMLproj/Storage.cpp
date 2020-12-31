@@ -55,6 +55,7 @@ void Storage::Extract(std::vector<Herbivore*> vec, int j)
 	carni.push_back(new Carnivore(x, y));
 }
 
+
 int Storage::randint(int from, int to)
 {
 	std::random_device rd;
@@ -63,6 +64,34 @@ int Storage::randint(int from, int to)
 	int pseudorandom_number = dist(mt);
 	return pseudorandom_number;
 }
+
+
+void Storage::Behaviorism_H() 
+{
+	for (auto& x : herbi)
+	{
+		x->Decision(this);
+	}
+}
+
+
+void Storage::Behaviorism_C()
+{
+	for (auto& x : carni)
+	{
+		x->Decision(this);
+	}
+}
+
+
+float Storage::CalcDistance(float x_from_in, float y_from_in, float x_to_in, float y_to_in)
+{
+	float x_move = x_to_in - x_from_in;
+	float y_move = y_to_in - y_from_in;
+
+	return sqrtf(pow(x_move, 2) + pow(y_move, 2));
+}
+
 
 void Storage::ClearVectors()
 {
