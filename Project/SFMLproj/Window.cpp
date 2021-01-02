@@ -22,8 +22,6 @@ Window::Window()
 }
 
 
-
-
 void Window::Loop()
 {
 	storage = new Storage(f, h, c);
@@ -58,8 +56,8 @@ void Window::DrawVectors()
 
 void Window::Action()
 {
-	HerbiAction();
-	CarniAction();
+	HerbiInteraction();
+	CarniInteraction();
 }
 
 
@@ -69,7 +67,7 @@ void Window::ShowDotsData()
 }
 
 
-int Window::ReadOnInit(std::string file_name)
+void Window::ReadOnInit(std::string file_name)
 {
 	std::string line;
 	std::ifstream inFile(file_name);
@@ -104,10 +102,7 @@ int Window::ReadOnInit(std::string file_name)
 			break;
 		}
 	}
-	return 1;
 }
-
-
 
 
 void Window::EventHandler()
@@ -138,7 +133,6 @@ void Window::WriteData(std::string file_name)
 		FILE.close();
 	}
 }
-
 
 
 void Window::Update()
@@ -174,7 +168,7 @@ void Window::Starve()
 }
 
 
-void Window::HerbiAction()
+void Window::HerbiInteraction()
 {
 	int i, j;
 	
@@ -189,11 +183,22 @@ void Window::HerbiAction()
 				h++;
 			}
 		}
+
+		for (j = 0; j < storage->herbi.size(); j++)
+		{
+			if (j != i)
+			{
+				if (IsIntersecting(storage->herbi[i], storage->herbi[j]))
+				{
+					storage->herbi[i]->SocialDistancing(storage, storage->herbi[j]);
+				}
+			}
+		}
 	}
 }
 
 
-void Window::CarniAction()
+void Window::CarniInteraction()
 {
 	int i, j;
 
@@ -206,6 +211,17 @@ void Window::CarniAction()
 				CarniHandler(storage->carni[i], j);
 				h--;
 				c++;
+			}
+		}
+
+		for (j = 0; j < storage->carni.size(); j++)
+		{
+			if (j != i) 
+			{
+				if (IsIntersecting(storage->carni[i], storage->carni[j]))
+				{
+					storage->carni[i]->SocialDistancing(storage, storage->carni[j]);
+				}
 			}
 		}
 	}

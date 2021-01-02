@@ -41,7 +41,7 @@ public:
 
 	//  Game features  \\
 		Reads txt file for information about quantity of dots of particular type
-	int ReadOnInit(std::string file_name);
+	void ReadOnInit(std::string file_name);
 	//  Takes care of all window events like resizing or closing the window
 	void EventHandler();  
 	//  Main loop of the game, in this place window is beeing drawn on, cleared
@@ -67,9 +67,9 @@ public:
 
 	//  Characters specific  \\
 	    Expansion for Action method for herbivores 
-	void HerbiAction();
+	void HerbiInteraction();
 	//  Expansion for Action method for carnivores 
-	void CarniAction();  
+	void CarniInteraction();  
 	void ShowDotsData();
 
 	template<typename T1, typename T2>

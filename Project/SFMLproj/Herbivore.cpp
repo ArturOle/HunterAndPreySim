@@ -9,7 +9,7 @@ char Herbivore::Type()
 
 void Herbivore::Flee(float x_c, float y_c)
 {
-	this->velocity = -this->dot_velocity * behavior->Flee(x_position, y_position, x_c, y_c);
+	this->velocity = this->dot_velocity * behavior->Flee(x_position, y_position, x_c, y_c);
 }
 
 

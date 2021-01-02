@@ -31,22 +31,21 @@ public:
 	void Extract(std::vector<Herbivore*> vec, int j);
 
 	int randint(int from, int to);
+	float CalcDistance(float x_from_in, float y_from_in, float x_to_in, float y_to_in);
 
 	void Behaviorism_H();
-
 	void Behaviorism_C();
 
-	float CalcDistance(float x_from_in, float y_from_in, float x_to_in, float y_to_in);
+
 
 	template<typename T>
 	void AddEntity(std::vector<T*>& vec);   // Adding objects to the dots vector
 	template<typename T>
 	void ShowVector(std::vector<T*> vec);
-
-	void ClearVectors();
 	template<typename T>
 	void ClearVector(std::vector<T*> vec);
 
+	void ClearVectors();
 	~Storage();
 };
 
@@ -62,6 +61,8 @@ inline void Storage::ShowVector(std::vector<T*> vec)
 						 << "\t" << dot->y_position << std::endl;
 	}
 }
+
+
 
 
 template<typename T>

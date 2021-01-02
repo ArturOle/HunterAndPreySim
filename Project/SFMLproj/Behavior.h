@@ -16,5 +16,6 @@ class Behavior_C  // behavior for carnivore
 {
 public:
 
+	sf::Vector2f KeepDistance(float x_h_in, float y_h_in, float x_c_in, float y_c_in);
 	sf::Vector2f Hunt(float x_c_in, float y_c_in, float x_h_in, float y_h_in);  // Calculates distance and move to hunt down herbivore
 };
