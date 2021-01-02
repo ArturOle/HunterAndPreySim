@@ -36,9 +36,8 @@ void Storage::ShowDotsData()
 
 void Storage::Extract(std::vector<Food*> vec, int j)
 {
-	int x, y;
-	x = foods[j]->dot.getPosition().x;
-	y = foods[j]->dot.getPosition().y;
+	int x = foods[j]->dot.getPosition().x;
+	int y = foods[j]->dot.getPosition().y;
 	delete foods[j];
 	foods.erase(foods.begin() + j);
 	herbi.push_back(new Herbivore(x, y));
@@ -47,9 +46,8 @@ void Storage::Extract(std::vector<Food*> vec, int j)
 
 void Storage::Extract(std::vector<Herbivore*> vec, int j)
 {
-	int x, y;
-	x = herbi[j]->dot.getPosition().x;
-	y = herbi[j]->dot.getPosition().y;
+	int x = herbi[j]->dot.getPosition().x;
+	int y = herbi[j]->dot.getPosition().y;
 	delete herbi[j];
 	herbi.erase(herbi.begin() + j);
 	carni.push_back(new Carnivore(x, y));

@@ -22,6 +22,53 @@ Window::Window()
 }
 
 
+
+
+void Window::Loop()
+{
+	storage = new Storage(f, h, c);
+
+	while (window.isOpen())
+	{
+		window.clear(sf::Color::Black);
+		Update();
+		DrawVectors();
+		window.display();
+		EventHandler();
+		Starve();
+		Action();
+		storage->Behaviorism_C();
+		storage->Behaviorism_H();
+		//WriteData("sessiondata.txt");
+		//ShowDotsData();
+		StopCondition();
+	}
+}
+
+
+void Window::DrawVectors() 
+{
+	DrawVector(storage->dots);
+	DrawVector(storage->bots);
+	DrawVector(storage->foods);
+	DrawVector(storage->herbi);
+	DrawVector(storage->carni);
+}
+
+
+void Window::Action()
+{
+	HerbiAction();
+	CarniAction();
+}
+
+
+void Window::ShowDotsData()
+{
+	storage->ShowDotsData();
+}
+
+
 int Window::ReadOnInit(std::string file_name)
 {
 	std::string line;
@@ -61,65 +108,6 @@ int Window::ReadOnInit(std::string file_name)
 }
 
 
-void Window::Loop()
-{
-	storage = new Storage(f, h, c);
-
-	while (window.isOpen())
-	{
-		window.clear(sf::Color::Black);
-		Update();
-		DrawVectors();
-		window.display();
-		EventHandler();
-		Starve();
-		Action();
-		storage->Behaviorism_C();
-		storage->Behaviorism_H();
-		//WriteData("sessiondata.txt");
-		ShowDotsData();
-		StopCondition();
-	}
-}
-
-
-void Window::DrawVectors() 
-{
-	DrawVector(storage->dots);
-	DrawVector(storage->bots);
-	DrawVector(storage->foods);
-	DrawVector(storage->herbi);
-	DrawVector(storage->carni);
-}
-
-
-void Window::StopCondition()
-{
-	if (h > 20 * c) 
-	{
-		std::string result = "Herbivore won";
-		EndSession(result, "sessiondata.txt");
-	}
-	if (h == 0)
-	{
-		std::string result = "Carnivore won";
-		EndSession(result, "sessiondata.txt");
-	}	
-}
-
-
-void Window::EndSession(std::string res, std::string file_name )
-{
-	std::ofstream FILE(file_name, std::ios::app);
-
-	if (FILE.is_open())
-	{
-		FILE << "result;" + res + ";\n";
-		FILE.close();
-	}
-
-	window.close();
-}
 
 
 void Window::EventHandler()
@@ -152,18 +140,6 @@ void Window::WriteData(std::string file_name)
 }
 
 
-void Window::ShowDotsData()
-{
-	storage->ShowDotsData();
-}
-
-
-void Window::Action()
-{
-	HerbiAction();
-	CarniAction();
-}
-
 
 void Window::Update()
 {
@@ -186,9 +162,7 @@ void Window::Update()
 
 void Window::Starve()
 {
-	int x;
-
-	for ( x = 0; x < storage->carni.size(); x++)
+	for (int x = 0; x < storage->carni.size(); x++)
 	{
 		if (storage->carni[x]->CheckTime() >= 0) 
 		{
@@ -197,15 +171,6 @@ void Window::Starve()
 			this->c--;
 		}
 	}
-}
-
-
-float Window::CalcDistance(float x_from_in, float y_from_in, float x_to_in, float y_to_in)
-{
-	float x_move = x_to_in - x_from_in;
-	float y_move = y_to_in - y_from_in;
-
-	return sqrtf(pow(x_move, 2) + pow(y_move, 2));
 }
 
 
@@ -245,6 +210,36 @@ void Window::CarniAction()
 		}
 	}
 }
+
+
+void Window::StopCondition()
+{
+	if (h > 20 * c) 
+	{
+		std::string result = "Herbivore won";
+		EndSession(result, "sessiondata.txt");
+	}
+	if (h == 0)
+	{
+		std::string result = "Carnivore won";
+		EndSession(result, "sessiondata.txt");
+	}	
+}
+
+
+void Window::EndSession(std::string res, std::string file_name )
+{
+	std::ofstream FILE(file_name, std::ios::app);
+
+	if (FILE.is_open())
+	{
+		FILE << "result;" + res + ";\n";
+		FILE.close();
+	}
+
+	window.close();
+}
+
 
 Window::~Window()
 {

@@ -58,7 +58,8 @@ inline void Storage::ShowVector(std::vector<T*> vec)
 
 	for (auto& dot : vec)
 	{
-		std::cout << dot << std::endl;
+		std::cout << dot << "\t" << dot->x_position 
+						 << "\t" << dot->y_position << std::endl;
 	}
 }
 

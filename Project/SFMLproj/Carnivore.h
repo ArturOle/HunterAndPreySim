@@ -16,7 +16,7 @@ public:
 	Carnivore(int x_in, int y_in) : Bot(x_in, y_in)
 	{
 		dot.setFillColor(sf::Color::Red);
-		dot_velocity = 4.0f;
+		dot_velocity = 5.25f;
 		birth_time = time(0);
 		behavior = new Behavior_C();
 	}
@@ -32,6 +32,7 @@ public:
 
 	~Carnivore();
 };
+
 
 template<typename T>
 inline void Carnivore::Decision(T storage)
