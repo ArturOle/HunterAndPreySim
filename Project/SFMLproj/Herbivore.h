@@ -4,14 +4,14 @@
 
 class Herbivore : public Bot
 {
-	Behavior_H* behavior;
+	Behavior* behavior;
 	bool run = false;
 public:
 	Herbivore(int x_in, int y_in) : Bot(x_in, y_in)
 	{
 		dot_velocity = 5.0f;
 		dot.setFillColor(sf::Color::Green);
-		behavior = new Behavior_H();
+		behavior = new Behavior();
 	}
 
 	char Type();
@@ -31,7 +31,7 @@ public:
 template<typename T>
 inline void Herbivore::SocialDistancing(T storage, Herbivore* diffrent_herbi)
 {
-	sf::Vector2f move = behavior->Flee(x_position, y_position, diffrent_herbi->x_position, diffrent_herbi->y_position);
+	sf::Vector2f move = behavior->Repulsion(x_position, y_position, diffrent_herbi->x_position, diffrent_herbi->y_position);
 	
 	float x_move = x_position - diffrent_herbi->x_position;
 	float y_move = y_position - diffrent_herbi->y_position;

@@ -10,7 +10,7 @@ class Carnivore : public Bot
 protected:
 	const time_t max_life_time = 5;
 	time_t birth_time;
-	Behavior_C* behavior;
+	Behavior* behavior;
 
 public:
 	Carnivore(int x_in, int y_in) : Bot(x_in, y_in)
@@ -18,7 +18,7 @@ public:
 		dot_velocity = 5.0f;
 		dot.setFillColor(sf::Color::Red);
 		birth_time = time(0);
-		behavior = new Behavior_C();
+		behavior = new Behavior();
 	}
 
 	char Type();
@@ -39,7 +39,7 @@ public:
 template<typename T>
 inline void Carnivore::SocialDistancing(T storage, Carnivore* diffrent_carni)
 {
-	sf::Vector2f move = -behavior->KeepDistance(x_position, y_position, diffrent_carni->x_position, diffrent_carni->y_position);
+	sf::Vector2f move = -behavior->Repulsion(x_position, y_position, diffrent_carni->x_position, diffrent_carni->y_position);
 
 	float x_move = x_position - diffrent_carni->x_position;
 	float y_move = y_position - diffrent_carni->y_position;

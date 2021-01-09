@@ -85,4 +85,7 @@
     <Text Include="dotdata.txt" />
     <Text Include="sessiondata.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
 </Project>

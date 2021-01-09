@@ -3,19 +3,9 @@
 #include <math.h>
 
 
-class Behavior_H  // behavior for herbivore
+class Behavior
 {
 public:
-
-	sf::Vector2f Flee(float x_h_in, float y_h_in, float x_c_in, float y_c_in);  // Calculates distance and move for fleeing
-	sf::Vector2f Seek(float x_h_in, float y_h_in, float x_f_in, float y_f_in);  // Calculates distance and move to eat
-};
-
-
-class Behavior_C  // behavior for carnivore
-{
-public:
-
-	sf::Vector2f KeepDistance(float x_h_in, float y_h_in, float x_c_in, float y_c_in);
-	sf::Vector2f Hunt(float x_c_in, float y_c_in, float x_h_in, float y_h_in);  // Calculates distance and move to hunt down herbivore
+	sf::Vector2f Attraction(float x_first_in, float y_first_in, float x_second_in, float y_second_in);
+	sf::Vector2f Repulsion(float x_first_in, float y_first_in, float x_second_in, float y_second_in);
 };
