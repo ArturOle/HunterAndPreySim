@@ -8,7 +8,7 @@ class Dot : public sf::Drawable
 protected:
 	sf::CircleShape dot;
 	sf::RenderTarget* target;  // Where dot will be drawn
-	float radius = 5;
+	const float radius = 10;
 	friend class Storage;
 	friend class Window;
 

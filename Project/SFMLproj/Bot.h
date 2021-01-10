@@ -11,7 +11,7 @@ class Bot : public Dot
 {
 protected:
 	bool alive = true;
-	float dot_velocity = 5.0f;
+	const float dot_velocity = 5.0f;
 	sf::Vector2f velocity;
 
 public:
