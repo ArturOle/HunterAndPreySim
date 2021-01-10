@@ -1472,3 +1472,4 @@ result;Carnivore won;
 result;Carnivore won;
 result;Carnivore won;
 result;Herbivore won;
+result;Carnivore won;
