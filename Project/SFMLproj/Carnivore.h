@@ -39,7 +39,7 @@ public:
 template<typename T>
 inline void Carnivore::SocialDistancing(T storage, Carnivore* diffrent_carni)
 {
-	sf::Vector2f move = -behavior->Repulsion(x_position, y_position, diffrent_carni->x_position, diffrent_carni->y_position);
+	sf::Vector2f move = -movement->Repulsion(x_position, y_position, diffrent_carni->x_position, diffrent_carni->y_position);
 
 	float x_move = x_position - diffrent_carni->x_position;
 	float y_move = y_position - diffrent_carni->y_position;
