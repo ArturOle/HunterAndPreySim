@@ -23,6 +23,9 @@ Storage::Storage(int f, int h, int c, int d, int b, int o)
 	{
 		AddEntity<Carnivore>(carni);
 	}
+
+	obstacles.push_back(new Obstacle(randint(0, width), randint(0, height), randint(0, width), randint(0, height)));
+	obstacles.shrink_to_fit();
 }
 
 
@@ -98,6 +101,7 @@ void Storage::ClearVectors()
 	ClearVector(foods);
 	ClearVector(herbi);
 	ClearVector(carni);
+	ClearVector(obstacles);
 }
 
 

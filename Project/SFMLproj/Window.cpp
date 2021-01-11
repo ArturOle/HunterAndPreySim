@@ -51,6 +51,7 @@ void Window::DrawVectors()
 	DrawVector(storage->foods);
 	DrawVector(storage->herbi);
 	DrawVector(storage->carni);
+	DrawVector(storage->obstacles);
 }
 
 

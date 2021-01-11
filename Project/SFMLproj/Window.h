@@ -76,6 +76,8 @@ public:
 	bool IsIntersecting(T1 obj_1, T2 obj_2);  // Responsible for detecting intersections among the objects from dots vector
 	template<typename V>
 	void DrawVector(V v_names);
+	template<typename V>
+	void DrawVector(V v_names, sf::RectangleShape rect_in);
 	template<typename T>
 	void CarniHandler(T type2, int j);  // Helps carnivore eat and multiply 
 
@@ -96,6 +98,16 @@ inline void Window::DrawVector(V v_names)
 	for (auto& x : v_names)
 	{
 		window.draw(x->dot);
+	}
+}
+
+
+template<>
+inline void Window::DrawVector<std::vector<Obstacle*>>(std::vector<Obstacle*> v_names)
+{
+	for (auto& x : v_names)
+	{
+		window.draw(x->rect);
 	}
 }
 

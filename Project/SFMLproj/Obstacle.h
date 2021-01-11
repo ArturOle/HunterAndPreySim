@@ -13,7 +13,7 @@ public:
 	int a, b;
 	float x_position, y_position;
 
-	Obstacle(int a, int b, float x_position, float y_position);
+	Obstacle(int a, int b, float x_position_in, float y_position_in);
 	Obstacle() = delete;
 
 	void bound_left();
