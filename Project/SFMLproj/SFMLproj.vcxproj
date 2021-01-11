@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Behavior.h" />
+    <ClInclude Include="Movement.h" />
     <ClInclude Include="Bot.h" />
     <ClInclude Include="Carnivore.h" />
     <ClInclude Include="Dot.h" />
@@ -32,7 +32,7 @@
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Behavior.cpp" />
+    <ClCompile Include="Movement.cpp" />
     <ClCompile Include="Bot.cpp" />
     <ClCompile Include="Carnivore.cpp" />
     <ClCompile Include="Dot.cpp" />

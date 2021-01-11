@@ -11,7 +11,7 @@ void Carnivore::Hunt(Herbivore* herbi)
 {
 	this->velocity.x = 0;
 	this->velocity.y = 0;
-	this->velocity = this->dot_velocity*behavior->Attraction(x_position, y_position, herbi->x_position, herbi->y_position);
+	this->velocity = this->dot_velocity*movement->Attraction(x_position, y_position, herbi->x_position, herbi->y_position);
 }
 
 
@@ -29,5 +29,5 @@ int Carnivore::CheckTime()
 
 Carnivore::~Carnivore()
 {
-	delete behavior;
+	delete movement;
 }

@@ -10,7 +10,7 @@ class Carnivore : public Bot
 protected:
 	const time_t max_life_time = 5;
 	time_t birth_time;
-	Behavior* behavior;
+	Movement* movement;
 
 public:
 	Carnivore(int x_in, int y_in) : Bot(x_in, y_in)
@@ -18,7 +18,7 @@ public:
 		dot_velocity = 5.0f;
 		dot.setFillColor(sf::Color::Red);
 		birth_time = time(0);
-		behavior = new Behavior();
+		movement = new Movement();
 	}
 
 	char Type();

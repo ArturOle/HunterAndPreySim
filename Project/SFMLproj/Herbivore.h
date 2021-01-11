@@ -4,14 +4,14 @@
 
 class Herbivore : public Bot
 {
-	Behavior* behavior;
+	Movement* movement;
 	bool run = false;
 public:
 	Herbivore(int x_in, int y_in) : Bot(x_in, y_in)
 	{
 		dot_velocity = 5.0f;
 		dot.setFillColor(sf::Color::Green);
-		behavior = new Behavior();
+		movement = new Movement();
 	}
 
 	void Flee(float x_c, float y_c);  // Provide carnivore coordinates to behavior_h->Flee and change velocity
