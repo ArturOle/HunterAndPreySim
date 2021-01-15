@@ -36,8 +36,6 @@ public:
 	void Behaviorism_H();
 	void Behaviorism_C();
 
-
-
 	template<typename T>
 	void AddEntity(std::vector<T*>& vec);   // Adding objects to the dots vector
 	template<typename T>
@@ -61,8 +59,6 @@ inline void Storage::ShowVector(std::vector<T*> vec)
 						 << "\t" << dot->y_position << std::endl;
 	}
 }
-
-
 
 
 template<typename T>

@@ -21,8 +21,6 @@ public:
 		movement = new Movement();
 	}
 
-	char Type();
-
 	void Hunt(Herbivore* herbi);  //Provide herbivore coordinates to behavior_h->Fleeand change velocity
 	void AddTime();  // Adds 5 seconds after eating herbivore
 	int CheckTime();  // Controls carnivores lifetime

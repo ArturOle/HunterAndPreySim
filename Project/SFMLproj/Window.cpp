@@ -13,11 +13,6 @@ Window::Window()
 		e.what();
 	}
 
-	for (int i = 0; i < 3; i++)
-	{
-		std::cout << current_population[i] << std::endl;
-	}
-
 	window.setFramerateLimit(60);
 }
 
@@ -59,12 +54,6 @@ void Window::Action()
 {
 	HerbiInteraction();
 	CarniInteraction();
-}
-
-
-void Window::ShowDotsData()
-{
-	storage->ShowDotsData();
 }
 
 
@@ -140,17 +129,17 @@ void Window::Update()
 {
 	for (Bot* x : storage->bots)
 	{
-		x->Update();	
+		x->Update(storage);	
 	}
 
 	for (Herbivore* x : storage->herbi)
 	{
-		x->Update();
+		x->Update(storage);
 	}
 
 	for (Carnivore* x : storage->carni)
 	{
-		x->Update();
+		x->Update(storage);
 	}
 }
 
@@ -247,13 +236,13 @@ void Window::StopCondition()
 void Window::EndSession(std::string res, std::string file_name )
 {
 	std::ofstream FILE(file_name, std::ios::app);
-
+	/*
 	if (FILE.is_open())
 	{
 		FILE << "result;" + res + ";\n";
 		FILE.close();
 	}
-
+	*/
 	window.close();
 }
 

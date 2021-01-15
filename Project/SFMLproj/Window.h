@@ -70,7 +70,6 @@ public:
 	void HerbiInteraction();
 	//  Expansion for Action method for carnivores 
 	void CarniInteraction();  
-	void ShowDotsData();
 
 	template<typename T1, typename T2>
 	bool IsIntersecting(T1 obj_1, T2 obj_2);  // Responsible for detecting intersections among the objects from dots vector

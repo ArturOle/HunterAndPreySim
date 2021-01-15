@@ -1,12 +1,6 @@
 #include "Carnivore.h"
 
 
-char Carnivore::Type()
-{
-	return 'c';
-}
-
-
 void Carnivore::Hunt(Herbivore* herbi)
 {
 	this->velocity.x = 0;

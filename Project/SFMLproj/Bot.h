@@ -22,13 +22,38 @@ public:
 		dot.setFillColor(sf::Color::Blue);
 	}
 
-	char Type();  // Returns code type of this object, 'b' 
-
 	float Up();  // Caclulates higher boundry of a dot
 	float Down();  // Lower boundry
 	float Left();  // Left boundry
 	float Right();  // Right boundry
 
-	void Update();  // Updates data od the dot, checks border collisions and changes velocity respectively
+	template<typename T>
+	void Update(T storage);  // Updates data od the dot, checks border collisions and changes velocity respectively
 };
 
+
+template<typename T>
+inline void Bot::Update(T storage)
+{
+	if (this->Down() < 0)
+	{
+		velocity.y = dot_velocity;
+	}
+	else if (this->Up() > height)
+	{
+		velocity.y = -dot_velocity;
+	}
+
+	if (this->Left() < 0)
+	{
+		velocity.x = dot_velocity;
+	}
+	else if (this->Right() > width)
+	{
+		velocity.x = -dot_velocity;
+	}
+
+	dot.move(this->velocity);
+	x_position = dot.getPosition().x;
+	y_position = dot.getPosition().y;
+}

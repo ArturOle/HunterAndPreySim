@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.30406.217
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SFMLproj", "SFMLproj\SFMLproj.vcxproj", "{F6C6CE85-9659-472B-82A1-D65A099FC26E}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HandP_test", "HandP_test\HandP_test.vcxproj", "{F94408B8-8D5C-42A3-8767-2364C3EDC741}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{F6C6CE85-9659-472B-82A1-D65A099FC26E}.Release|x64.Build.0 = Release|x64
 		{F6C6CE85-9659-472B-82A1-D65A099FC26E}.Release|x86.ActiveCfg = Release|Win32
 		{F6C6CE85-9659-472B-82A1-D65A099FC26E}.Release|x86.Build.0 = Release|Win32
+		{F94408B8-8D5C-42A3-8767-2364C3EDC741}.Debug|x64.ActiveCfg = Debug|x64
+		{F94408B8-8D5C-42A3-8767-2364C3EDC741}.Debug|x64.Build.0 = Debug|x64
+		{F94408B8-8D5C-42A3-8767-2364C3EDC741}.Debug|x86.ActiveCfg = Debug|Win32
+		{F94408B8-8D5C-42A3-8767-2364C3EDC741}.Debug|x86.Build.0 = Debug|Win32
+		{F94408B8-8D5C-42A3-8767-2364C3EDC741}.Release|x64.ActiveCfg = Release|x64
+		{F94408B8-8D5C-42A3-8767-2364C3EDC741}.Release|x64.Build.0 = Release|x64
+		{F94408B8-8D5C-42A3-8767-2364C3EDC741}.Release|x86.ActiveCfg = Release|Win32
+		{F94408B8-8D5C-42A3-8767-2364C3EDC741}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

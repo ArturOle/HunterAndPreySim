@@ -11,6 +11,7 @@ sf::Vector2f Movement::Repulsion(float x_first_in, float y_first_in, float x_sec
 	sf::Vector2f directional_vector = { -x_move / current_distance_hunter,
 										-y_move / current_distance_hunter };
 
+	
 	return directional_vector;
 }
 
