@@ -35,22 +35,47 @@ public:
 template<typename T>
 inline void Bot::Update(T storage)
 {
-	if (this->Down() < 0)
+	if (this->Down() <= 0)
 	{
 		velocity.y = dot_velocity;
 	}
-	else if (this->Up() > height)
+	else if (this->Up() >= height)
 	{
 		velocity.y = -dot_velocity;
 	}
 
-	if (this->Left() < 0)
+	if (this->Left() <= 0)
 	{
 		velocity.x = dot_velocity;
 	}
-	else if (this->Right() > width)
+	else if (this->Right() >= width)
 	{
 		velocity.x = -dot_velocity;
+	}
+
+	if (storage->IsIntersecting(this, storage->obstacles[0]))
+	{
+		if (this->Left() <= storage->obstacles[0]->bound_right())
+		{
+			velocity.x = dot_velocity;
+		}
+		else if (this->Right() >= storage->obstacles[0]->bound_left())
+		{
+			velocity.x = -dot_velocity;
+		}
+
+		if (this->Up() >= storage->obstacles[0]->bound_bottom())
+		{
+			velocity.y = dot_velocity;
+		}
+		else if (this->Down() <= storage->obstacles[0]->bound_top())
+		{
+			velocity.y = -dot_velocity;
+		}
+		if (this->Right() >= storage->obstacles[0]->bound_left())
+		{
+			velocity.x = -dot_velocity;
+		}
 	}
 
 	dot.move(this->velocity);

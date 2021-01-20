@@ -24,7 +24,7 @@ Storage::Storage(int f, int h, int c, int d, int b, int o)
 		AddEntity<Carnivore>(carni);
 	}
 
-	obstacles.push_back(new Obstacle(20, 20, 50, 20));
+	obstacles.push_back(new Obstacle(randint(200, 500), randint(200, 500), randint(50, 250), randint(50, 250)));
 	obstacles.shrink_to_fit();
 }
 

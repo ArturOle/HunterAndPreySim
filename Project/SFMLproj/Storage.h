@@ -14,6 +14,7 @@ private:
 	friend class Window;
 	friend class Herbivore;
 	friend class Carnivore;
+	friend class Bot;
 	std::vector<Obstacle*> obstacles;
 	std::vector<Dot*> dots;  // Vector responsible for menaging and storing created dots
 	std::vector<Food*> foods;
@@ -42,6 +43,8 @@ public:
 	void ShowVector(std::vector<T*> vec);
 	template<typename T>
 	void ClearVector(std::vector<T*> vec);
+	template<typename T1, typename T2>
+	bool IsIntersecting(T1 obj_1, T2 obj_2);
 
 	void ClearVectors();
 	~Storage();
@@ -77,4 +80,11 @@ inline void Storage::ClearVector(std::vector<T*> vec)
 		delete x;
 	}
 	vec.clear();
+}
+
+
+template<typename T1, typename T2>
+inline bool Storage::IsIntersecting(T1 obj_1, T2 obj_2)
+{
+	return obj_1->dot.getGlobalBounds().intersects(obj_2->rect.getGlobalBounds());
 }

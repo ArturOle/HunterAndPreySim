@@ -8,6 +8,7 @@ protected:
 	sf::RectangleShape rect;
 	sf::RenderTarget* target;
 	friend class Window;
+	friend class Storage;
 
 public:
 	int a, b;
@@ -16,10 +17,10 @@ public:
 	Obstacle(int a, int b, float x_position_in, float y_position_in);
 	Obstacle() = delete;
 
-	void bound_left();
-	void bound_right();
-	void bound_top();
-	void bound_bottom();
+	float bound_left();
+	float bound_right();
+	float bound_top();
+	float bound_bottom();
 
 	void draw(sf::RenderTarget& target, sf::RenderStates state) const override;
 
