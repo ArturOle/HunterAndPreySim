@@ -7,4 +7,4 @@ Most important part of the project was optimization, relations and actions betwe
 ### Green - Herbivores
 ### Yellow - Food for Herbivores
 
-![alt text]()
+![alt text](https://github.com/ArturOle/HunterAndPreySim/blob/main/Photos/Screen1.png)
