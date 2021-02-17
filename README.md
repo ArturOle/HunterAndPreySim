@@ -1,4 +1,4 @@
-# Simple Visual Simualtion of Possible Animal Behavior
+# Simple Visual Simulation of Possible Animal Behavior
 
 The Aim of the Project was to made satisfactory bot-oriented simulation with simple algorithms and graphics.
 Most important part of the project was optimization, relations and actions between object.
